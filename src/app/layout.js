@@ -40,6 +40,18 @@ export default function RootLayout({ children }) {
           <main className="main-content">
             {children}
           </main>
+
+          <footer style={{ 
+            padding: '1.5rem 1rem', 
+            textAlign: 'center', 
+            fontSize: '0.75rem', 
+            color: 'var(--bg-neutral-muted)', 
+            borderTop: '1px solid var(--border-color)', 
+            background: 'var(--bg-cream)',
+            zIndex: 10
+          }}>
+            Rallence · Build: v1.0.2
+          </footer>
         </div>
       </body>
     </html>
