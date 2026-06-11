@@ -26,6 +26,37 @@ function ProviderLogo({ src, alt }) {
   );
 }
 
+const getWtpBounds = (category) => {
+  if (category === 'Food') return { min: 2000, max: 7000, defaultVal: 4500, step: 250 };
+  if (category === 'Performance') return { min: 1000, max: 4000, defaultVal: 2500, step: 100 };
+  if (category === 'Social') return { min: 1500, max: 5000, defaultVal: 3000, step: 250 };
+  if (category === 'Outdoors') return { min: 2000, max: 6000, defaultVal: 4000, step: 200 };
+  return { min: 2000, max: 6000, defaultVal: 3500, step: 200 };
+};
+
+const getWtpDescription = (category, value) => {
+  const val = parseInt(value) || 0;
+  if (category === 'Food') {
+    if (val < 3500) return "Basic Cafe / Self-Serve: Shared long table, simple bites, standard ambient cafe acoustics.";
+    if (val < 5500) return "Premium Bistro / Lounge: 4-course curated menu, dedicated waitstaff, customized acoustics.";
+    return "Luxury Counter / Private Dining: 6-course seasonal Washoku menu, premium sake pairings, quiet solid wood acoustics.";
+  }
+  if (category === 'Performance') {
+    if (val < 1800) return "Standing Room / Backyard Garden: standard acoustics, basic welcome beverage.";
+    if (val < 2800) return "Seated Terrace / Jazz Lounge: dedicated chairs, 2-pour wine flight, sound-tuned spacing.";
+    return "Audiophile Room / Private Balcony: premium front-row acoustic seating, custom charcuterie, 4-pour tasting flight.";
+  }
+  if (category === 'Social') {
+    if (val < 2500) return "Shared Lounge: Casual couch seating, basic appetizer platters, ambient background noise.";
+    if (val < 3800) return "Private Library / Green Room: Dedicated discussion space, multi-course healthy dinner, low-noise private acoustics.";
+    return "Skyline Loft Buyout: Premium top-floor buyout, bespoke chef dining, pre-circulated readings, fully private.";
+  }
+  // Outdoors
+  if (val < 3500) return "Basic Field Camp: Standard tents, BYO gear option, simple bonfire, shared field kitchen.";
+  if (val < 4800) return "Premium Glamping: High-quality weather-proof tents, guide-led telescope session, farm-to-table organic meals.";
+  return "Luxury Wilderness Dome: Geodesic domes with private decks, specialized astronomer guides, premium stargazing equipment, forest banquet.";
+};
+
 export default function ProposalDetail() {
   const params = useParams();
   const id = params.id;
@@ -37,6 +68,13 @@ export default function ProposalDetail() {
   const [selectedWTP, setSelectedWTP] = useState(null);
   const [selectedAvailability, setSelectedAvailability] = useState(null);
   const [backingStep, setBackingStep] = useState(1);
+
+  // Booking Flow State
+  const [showBookingForm, setShowBookingForm] = useState(false);
+  const [bookingStep, setBookingStep] = useState(1); // 1: Seats, 2: Notes & Checkout, 3: Success Ticket
+  const [bookingSeats, setBookingSeats] = useState(1);
+  const [bookingNotes, setBookingNotes] = useState("");
+  const [bookingResult, setBookingResult] = useState(null);
 
   // Share Modal State
   const [showShareModal, setShowShareModal] = useState(false);
@@ -65,14 +103,15 @@ export default function ProposalDetail() {
 
   // Handle support submission
   const handleSupportSubmit = async () => {
-    if (!selectedWTP || !selectedAvailability) return;
+    const finalWTP = selectedWTP || getWtpBounds(proposal.category).defaultVal;
+    if (!selectedAvailability) return;
     try {
       const res = await fetch(`/api/proposals/${id}/support`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           userId: 'admin',
-          willingnessToPay: selectedWTP,
+          willingnessToPay: finalWTP,
           availability: selectedAvailability
         })
       });
@@ -83,6 +122,32 @@ export default function ProposalDetail() {
       }
     } catch (err) {
       console.error("Failed to submit support:", err);
+    }
+  };
+
+  // Handle booking submission
+  const handleBookSubmit = async () => {
+    try {
+      const res = await fetch(`/api/proposals/${id}/book`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: 'admin',
+          seatsCount: bookingSeats,
+          notes: bookingNotes
+        })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setBookingResult({ booking: data.booking, proposal: data.proposal });
+        setBookingStep(3);
+        fetchProposal();
+      } else {
+        alert("Booking failed: " + data.error);
+      }
+    } catch (err) {
+      console.error("Failed to submit booking:", err);
+      alert("Booking failed due to an error.");
     }
   };
 
@@ -314,117 +379,353 @@ export default function ProposalDetail() {
         </div>
       </div>
 
-      {/* Rally backing component */}
-      {!isActivated && (
-        <div className="backing-box">
-          {isBackedByMe ? (
-            <div>
-              <div style={{ fontSize: '2.5rem', color: 'var(--accent-sage)', marginBottom: '0.5rem' }}>✓</div>
-              <h3 style={{ fontSize: '1.5rem', marginBottom: '0.5rem', fontFamily: 'var(--font-serif)' }}>You have rallied for this</h3>
-              <p style={{ fontSize: '0.95rem', color: 'var(--bg-neutral-muted)' }}>
-                Your availability and willingness-to-pay are on the demand radar. We'll notify you as soon as provider terms are accepted!
-              </p>
-            </div>
-          ) : showBackingForm ? (
-            <div className="backing-panel" style={{ maxWidth: '500px', margin: '0 auto', border: 'none', boxShadow: 'none' }}>
-              {backingStep === 1 && (
-                <>
-                  <div className="backing-step-title" style={{ fontSize: '1.4rem' }}>How much would you pay for this?</div>
-                  <div className="pill-group" style={{ justifyContent: 'center', margin: '1rem 0' }}>
-                    {wtpOptions.map((price) => (
+      {/* Rally backing or Booking component */}
+      <div className="backing-box">
+        {isActivated ? (
+          <div>
+            {!showBookingForm ? (
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem', textAlign: 'center' }}>
+                <div style={{ fontSize: '2.5rem', color: 'var(--accent-terracotta)', marginBottom: '0.25rem' }}>🎫</div>
+                <h3 style={{ fontSize: '1.6rem', fontFamily: 'var(--font-serif)' }}>Experience Activated!</h3>
+                <p style={{ fontSize: '0.95rem', color: 'var(--bg-neutral-muted)', maxWidth: '550px' }}>
+                  This experience has been activated at <strong>{proposal.bids.find(b => b.id === proposal.activeBidId)?.providerName || 'the host venue'}</strong>. 
+                  Confirmed for <strong>{proposal.bids.find(b => b.id === proposal.activeBidId)?.proposedDate || 'the proposed date'}</strong> at <strong>₹{proposal.bids.find(b => b.id === proposal.activeBidId)?.price?.toLocaleString() || '3,500'}</strong> per seat.
+                </p>
+                <button 
+                  className="btn btn-primary" 
+                  onClick={() => {
+                    setBookingSeats(1);
+                    setBookingNotes("");
+                    setBookingStep(1);
+                    setBookingResult(null);
+                    setShowBookingForm(true);
+                  }}
+                  style={{ padding: '0.85rem 3rem', fontSize: '1.1rem', marginTop: '0.5rem', background: 'var(--accent-terracotta)', borderColor: 'var(--accent-terracotta)' }}
+                >
+                  Book Tickets
+                </button>
+              </div>
+            ) : (
+              <div className="backing-panel" style={{ maxWidth: '500px', margin: '0 auto', border: 'none', boxShadow: 'none' }}>
+                {bookingStep === 1 && (
+                  <>
+                    <div className="backing-step-title" style={{ fontSize: '1.4rem', color: 'var(--accent-terracotta)' }}>Select Seats</div>
+                    <div style={{ fontSize: '0.9rem', color: 'var(--bg-neutral-muted)', marginBottom: '1rem' }}>
+                      Price: ₹{proposal.bids.find(b => b.id === proposal.activeBidId)?.price?.toLocaleString() || '3,500'} / seat
+                    </div>
+                    
+                    <div className="pill-group" style={{ justifyContent: 'center', margin: '1rem 0' }}>
+                      {[1, 2, 4, 8].map((seats) => (
+                        <button 
+                          key={seats}
+                          className={`pill-btn ${bookingSeats === seats ? 'active' : ''}`}
+                          onClick={() => setBookingSeats(seats)}
+                          style={{ padding: '0.75rem 1.5rem', fontSize: '1rem' }}
+                        >
+                          {seats} {seats === 1 ? 'Seat' : 'Seats'}
+                        </button>
+                      ))}
+                    </div>
+
+                    <div style={{ marginTop: '1.5rem', borderTop: '1px solid var(--border-color)', paddingTop: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <div style={{ textAlign: 'left' }}>
+                        <span style={{ fontSize: '0.8rem', color: '#8F8D8A' }}>Total Amount:</span>
+                        <div style={{ fontSize: '1.4rem', fontWeight: '700', color: 'var(--bg-neutral-dark)' }}>
+                          ₹{(bookingSeats * (proposal.bids.find(b => b.id === proposal.activeBidId)?.price || 3500)).toLocaleString()}
+                        </div>
+                      </div>
+                      <div style={{ display: 'flex', gap: '0.5rem' }}>
+                        <button className="btn btn-text" onClick={() => setShowBookingForm(false)}>Cancel</button>
+                        <button 
+                          className="btn btn-primary" 
+                          onClick={() => setBookingStep(2)}
+                        >
+                          Next
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                {bookingStep === 2 && (
+                  <>
+                    <div className="backing-step-title" style={{ fontSize: '1.4rem', color: 'var(--accent-terracotta)' }}>Dietary & Acoustic Notes</div>
+                    <div style={{ margin: '1rem 0', textAlign: 'left' }}>
+                      <label style={{ fontSize: '0.85rem', color: '#8F8D8A', display: 'block', marginBottom: '0.35rem' }}>
+                        Please list any special requirements, allergies, or seat placement preferences:
+                      </label>
+                      <textarea 
+                        className="form-input"
+                        value={bookingNotes}
+                        onChange={(e) => setBookingNotes(e.target.value)}
+                        placeholder="E.g., Vegetarian, Gluten-free, quiet space near the front, etc."
+                        style={{ width: '100%', minHeight: '80px', padding: '0.75rem', fontSize: '0.9rem', background: '#FFFDF9', border: '1px solid var(--border-color)', borderRadius: '6px', resize: 'none', color: '#000' }}
+                      />
+                    </div>
+                    <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center', marginTop: '1rem' }}>
+                      <button className="btn btn-text" onClick={() => setBookingStep(1)}>Back</button>
                       <button 
-                        key={price}
-                        className={`pill-btn ${selectedWTP === price ? 'active' : ''}`}
-                        onClick={() => setSelectedWTP(price)}
-                        style={{ padding: '0.75rem 1.5rem', fontSize: '1rem' }}
+                        className="btn btn-secondary" 
+                        onClick={handleBookSubmit}
                       >
-                        ₹{price.toLocaleString()}
+                        Complete Booking
                       </button>
-                    ))}
-                  </div>
-                  <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
-                    <button className="btn btn-text" onClick={() => setShowBackingForm(false)}>Cancel</button>
+                    </div>
+                  </>
+                )}
+
+                {bookingStep === 3 && bookingResult && (
+                  <div className="backing-success-animation">
+                    <div className="checkmark-circle">✓</div>
+                    <div style={{ fontWeight: '600', fontSize: '1.3rem', marginBottom: '1rem' }}>Booking Confirmed!</div>
+                    
+                    {/* CSS Styled Ticket Receipt */}
+                    <div style={{
+                      background: '#FFFDF9',
+                      border: '2px solid #E5E0D8',
+                      borderRadius: '8px',
+                      padding: '1.25rem',
+                      color: '#1C1917',
+                      textAlign: 'left',
+                      boxShadow: 'var(--shadow-organic)',
+                      position: 'relative',
+                      maxWidth: '400px',
+                      margin: '0 auto'
+                    }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                        <div>
+                          <span style={{ fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--accent-terracotta)', fontWeight: '700' }}>
+                            Scout Space Pass
+                          </span>
+                          <h4 style={{ fontSize: '1.05rem', fontWeight: '700', margin: '0.2rem 0', fontFamily: 'var(--font-serif)' }}>{proposal.title}</h4>
+                        </div>
+                        
+                        {/* Interactive procedural QR code */}
+                        <div className="ticket-qr-grid" style={{
+                          display: 'grid',
+                          gridTemplateColumns: 'repeat(6, 1fr)',
+                          gap: '2px',
+                          width: '48px',
+                          height: '48px',
+                          background: '#fff',
+                          padding: '3px',
+                          borderRadius: '3px',
+                          border: '1px solid #E5E0D8'
+                        }}>
+                          {[...Array(36)].map((_, i) => {
+                            const row = Math.floor(i / 6);
+                            const col = i % 6;
+                            const isMarker = (row < 2 && col < 2) || (row < 2 && col >= 4) || (row >= 4 && col < 2);
+                            const filled = isMarker || (Math.sin(i * 17) > 0);
+                            return (
+                              <div key={i} style={{
+                                background: filled ? '#1C1917' : 'transparent',
+                                borderRadius: '0.5px'
+                              }} />
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      <div style={{ borderBottom: '2px dashed #E5E0D8', margin: '1rem 0', position: 'relative' }}>
+                        <div style={{ position: 'absolute', left: '-22px', top: '-9px', width: '18px', height: '18px', borderRadius: '50%', background: 'var(--bg-paper)', borderRight: '2px solid #E5E0D8' }}></div>
+                        <div style={{ position: 'absolute', right: '-22px', top: '-9px', width: '18px', height: '18px', borderRadius: '50%', background: 'var(--bg-paper)', borderLeft: '2px solid #E5E0D8' }}></div>
+                      </div>
+
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem', fontSize: '0.8rem' }}>
+                        <div>
+                          <span style={{ color: '#8F8D8A', display: 'block', fontSize: '0.65rem' }}>VENUE</span>
+                          <strong>{bookingResult.booking.providerName}</strong>
+                        </div>
+                        <div>
+                          <span style={{ color: '#8F8D8A', display: 'block', fontSize: '0.65rem' }}>DATE / TIME</span>
+                          <strong>{bookingResult.booking.proposedDate}</strong>
+                        </div>
+                        <div>
+                          <span style={{ color: '#8F8D8A', display: 'block', fontSize: '0.65rem' }}>SEATS</span>
+                          <strong>{bookingResult.booking.seatsCount} Person(s)</strong>
+                        </div>
+                        <div>
+                          <span style={{ color: '#8F8D8A', display: 'block', fontSize: '0.65rem' }}>TICKET ID</span>
+                          <strong>{bookingResult.booking.bookingId}</strong>
+                        </div>
+                      </div>
+
+                      {bookingResult.booking.notes && (
+                        <div style={{ borderTop: '1px solid #E5E0D8', marginTop: '1rem', paddingTop: '0.5rem', fontSize: '0.75rem', color: '#5C5A57', fontStyle: 'italic' }}>
+                          Notes: "{bookingResult.booking.notes}"
+                        </div>
+                      )}
+                    </div>
+                    
                     <button 
                       className="btn btn-primary" 
-                      disabled={!selectedWTP}
-                      onClick={() => setBackingStep(2)}
+                      onClick={() => {
+                        setShowBookingForm(false);
+                        setBookingStep(1);
+                        setBookingResult(null);
+                      }}
+                      style={{ width: '100%', marginTop: '1.25rem' }}
                     >
-                      Next
+                      Done (+50 Scout pts!)
                     </button>
                   </div>
-                </>
-              )}
+                )}
+              </div>
+            )}
+          </div>
+        ) : (
+          <div>
+            {isBackedByMe ? (
+              <div>
+                <div style={{ fontSize: '2.5rem', color: 'var(--accent-sage)', marginBottom: '0.5rem' }}>✓</div>
+                <h3 style={{ fontSize: '1.5rem', marginBottom: '0.5rem', fontFamily: 'var(--font-serif)' }}>You have rallied for this</h3>
+                <p style={{ fontSize: '0.95rem', color: 'var(--bg-neutral-muted)' }}>
+                  Your availability and willingness-to-pay are on the demand radar. We'll notify you as soon as provider terms are accepted!
+                </p>
+              </div>
+            ) : showBackingForm ? (
+              <div className="backing-panel" style={{ maxWidth: '500px', margin: '0 auto', border: 'none', boxShadow: 'none' }}>
+                {backingStep === 1 && (
+                  <>
+                    <div className="backing-step-title" style={{ fontSize: '1.4rem' }}>How much would you pay for this?</div>
+                    
+                    {/* Range Slider for WTP */}
+                    <div style={{ padding: '1rem 0', textAlign: 'left' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: '700', fontSize: '1.25rem', color: 'var(--accent-terracotta)', marginBottom: '0.5rem' }}>
+                        <span>₹{(selectedWTP || getWtpBounds(proposal.category).defaultVal).toLocaleString()}</span>
+                        <span style={{ fontSize: '0.85rem', color: '#8F8D8A', alignSelf: 'center', fontWeight: 'normal' }}>
+                          Max: ₹{getWtpBounds(proposal.category).max.toLocaleString()}
+                        </span>
+                      </div>
+                      <input 
+                        type="range"
+                        min={getWtpBounds(proposal.category).min}
+                        max={getWtpBounds(proposal.category).max}
+                        step={getWtpBounds(proposal.category).step}
+                        value={selectedWTP || getWtpBounds(proposal.category).defaultVal}
+                        onChange={(e) => setSelectedWTP(parseInt(e.target.value))}
+                        style={{
+                          width: '100%',
+                          accentColor: 'var(--accent-terracotta)',
+                          background: '#E5E0D8',
+                          height: '6px',
+                          borderRadius: '3px',
+                          outline: 'none',
+                          cursor: 'pointer'
+                        }}
+                      />
+                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', color: '#8F8D8A', marginTop: '0.25rem' }}>
+                        <span>₹{getWtpBounds(proposal.category).min.toLocaleString()}</span>
+                        <span>₹{getWtpBounds(proposal.category).max.toLocaleString()}</span>
+                      </div>
+                      
+                      {/* Dynamic Tradeoff Board */}
+                      <div className="playbook-card" style={{
+                        background: 'rgba(28, 25, 23, 0.04)',
+                        border: '1px solid rgba(28, 25, 23, 0.08)',
+                        color: '#1C1917',
+                        padding: '0.75rem',
+                        marginTop: '1rem',
+                        borderRadius: '6px',
+                        fontSize: '0.8rem',
+                        lineHeight: '1.4'
+                      }}>
+                        <strong style={{ color: 'var(--accent-sage-hover)', display: 'block', marginBottom: '0.25rem', fontSize: '0.85rem' }}>
+                          🔓 Venue & Service Tradeoff
+                        </strong>
+                        {getWtpDescription(proposal.category, selectedWTP || getWtpBounds(proposal.category).defaultVal)}
+                      </div>
+                    </div>
 
-              {backingStep === 2 && (
-                <>
-                  <div className="backing-step-title" style={{ fontSize: '1.4rem' }}>When are you available?</div>
-                  <div className="pill-group" style={{ justifyContent: 'center', margin: '1rem 0' }}>
-                    {['This Weekend', 'Any Weekend', 'Weekdays', 'Anytime'].map((time) => (
+                    <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
+                      <button className="btn btn-text" onClick={() => setShowBackingForm(false)}>Cancel</button>
                       <button 
-                        key={time}
-                        className={`pill-btn ${selectedAvailability === time ? 'active-sage' : ''}`}
-                        onClick={() => setSelectedAvailability(time)}
-                        style={{ padding: '0.75rem 1.5rem', fontSize: '1rem' }}
+                        className="btn btn-primary" 
+                        onClick={() => {
+                          if (!selectedWTP) {
+                            setSelectedWTP(getWtpBounds(proposal.category).defaultVal);
+                          }
+                          setBackingStep(2);
+                        }}
                       >
-                        {time}
+                        Next
                       </button>
-                    ))}
-                  </div>
-                  <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
-                    <button className="btn btn-text" onClick={() => setBackingStep(1)}>Back</button>
+                    </div>
+                  </>
+                )}
+
+                {backingStep === 2 && (
+                  <>
+                    <div className="backing-step-title" style={{ fontSize: '1.4rem' }}>When are you available?</div>
+                    <div className="pill-group" style={{ justifyContent: 'center', margin: '1rem 0' }}>
+                      {['This Weekend', 'Any Weekend', 'Weekdays', 'Anytime'].map((time) => (
+                        <button 
+                          key={time}
+                          className={`pill-btn ${selectedAvailability === time ? 'active-sage' : ''}`}
+                          onClick={() => setSelectedAvailability(time)}
+                          style={{ padding: '0.75rem 1.5rem', fontSize: '1rem' }}
+                        >
+                          {time}
+                        </button>
+                      ))}
+                    </div>
+                    <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
+                      <button className="btn btn-text" onClick={() => setBackingStep(1)}>Back</button>
+                      <button 
+                        className="btn btn-secondary" 
+                        disabled={!selectedAvailability}
+                        onClick={handleSupportSubmit}
+                      >
+                        Commit Interest
+                      </button>
+                    </div>
+                  </>
+                )}
+
+                {backingStep === 3 && (
+                  <div className="backing-success-animation">
+                    <div className="checkmark-circle">✓</div>
+                    <div style={{ fontWeight: '600', fontSize: '1.25rem' }}>Resonance Locked In!</div>
+                    <p style={{ fontSize: '0.9rem', color: '#5C5A57' }}>
+                      Your details are submitted. We added +10 Scout points to your profile.
+                    </p>
                     <button 
-                      className="btn btn-secondary" 
-                      disabled={!selectedAvailability}
-                      onClick={handleSupportSubmit}
+                      className="btn btn-primary" 
+                      onClick={() => {
+                        setShowBackingForm(false);
+                        setBackingStep(1);
+                      }}
+                      style={{ width: '100%', marginTop: '0.5rem' }}
                     >
-                      Commit Interest
+                      Close
                     </button>
                   </div>
-                </>
-              )}
-
-              {backingStep === 3 && (
-                <div className="backing-success-animation">
-                  <div className="checkmark-circle">✓</div>
-                  <div style={{ fontWeight: '600', fontSize: '1.25rem' }}>Resonance Locked In!</div>
-                  <p style={{ fontSize: '0.9rem', color: '#5C5A57' }}>
-                    Your details are submitted. We added +10 Scout points to your profile.
-                  </p>
-                  <button 
-                    className="btn btn-primary" 
-                    onClick={() => {
-                      setShowBackingForm(false);
-                      setBackingStep(1);
-                    }}
-                    style={{ width: '100%', marginTop: '0.5rem' }}
-                  >
-                    Close
-                  </button>
-                </div>
-              )}
-            </div>
-          ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem' }}>
-              <h3 style={{ fontSize: '1.6rem', fontFamily: 'var(--font-serif)' }}>Rally Around This Experience</h3>
-              <p style={{ fontSize: '0.95rem', color: 'var(--bg-neutral-muted)', maxWidth: '500px' }}>
-                Join the demand pool! Once we reach the target threshold, curated venues will submit structured dates and pricing to host this exact blueprint.
-              </p>
-              <button 
-                className="btn btn-primary" 
-                onClick={() => {
-                  setSelectedWTP(null);
-                  setSelectedAvailability(null);
-                  setBackingStep(1);
-                  setShowBackingForm(true);
-                }}
-                style={{ padding: '0.85rem 2.5rem', fontSize: '1.1rem', marginTop: '0.5rem' }}
-              >
-                Rally Interest
-              </button>
-            </div>
-          )}
-        </div>
-      )}
+                )}
+              </div>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem' }}>
+                <h3 style={{ fontSize: '1.6rem', fontFamily: 'var(--font-serif)' }}>Rally Around This Experience</h3>
+                <p style={{ fontSize: '0.95rem', color: 'var(--bg-neutral-muted)', maxWidth: '500px' }}>
+                  Join the demand pool! Once we reach the target threshold, curated venues will submit structured dates and pricing to host this exact blueprint.
+                </p>
+                <button 
+                  className="btn btn-primary" 
+                  onClick={() => {
+                    setSelectedWTP(getWtpBounds(proposal.category).defaultVal);
+                    setSelectedAvailability(null);
+                    setBackingStep(1);
+                    setShowBackingForm(true);
+                  }}
+                  style={{ padding: '0.85rem 2.5rem', fontSize: '1.1rem', marginTop: '0.5rem' }}
+                >
+                  Rally Interest
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
 
       {/* Provider Bids section */}
       <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '2.5rem', marginTop: '1rem' }}>

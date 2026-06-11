@@ -4,13 +4,12 @@
       "username": "admin",
       "name": "Kranti",
       "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150",
-      "badge": "Proposal Founder",
-      "points": 370,
+      "badge": "City Scout",
+      "points": 320,
       "pcpProfile": {
         "categories": [
           "Food",
-          "Social",
-          "Outdoors"
+          "Social"
         ],
         "budget": "Medium-High",
         "availability": "Weekends"
@@ -260,37 +259,256 @@
       "inviteFriendsCount": 8
     },
     {
-      "id": "prop-1781189150391",
-      "title": "Wilderness Astronomy Camp",
-      "description": "Escape the city lights for a guided night of stargazing in the hills. Includes high-powered telescope walkthroughs, stargazing chart packets, premium tents, and organic farm meals.",
+      "id": "prop-5",
+      "title": "Vinyl Listening & Natural Wine Night",
+      "description": "An analog hi-fi sound system experience. Gather in a dedicated listening lounge to hear rare jazz, ambient, and soul records played on classic turntables, paired with a curated tasting of four minimal-intervention natural wines and small plates.",
+      "category": "Performance",
+      "creatorId": "user_1",
+      "status": "GATHERING_DEMAND",
+      "targetThreshold": 40,
+      "image": "https://images.unsplash.com/photo-1539635278303-d4002c07eae3?w=800",
+      "playbook": {
+        "concept": "Analog hi-fi vinyl listening session with natural wine flight.",
+        "key_requirements": [
+          "Acoustically treated quiet listening lounge.",
+          "High-fidelity tube amplifier and audiophile turntable setup.",
+          "4-pour organic/natural wine flight guided by a local importer.",
+          "Artisanal charcuterie and sourdough crackers."
+        ],
+        "vibe": "Intimate, warm, audio-centric",
+        "target_audience": "Music lovers, audiophiles, natural wine explorers",
+        "conditions": "Thursday or Friday night, budget ₹2,800 - ₹3,800."
+      },
+      "supporters": [
+        {
+          "userId": "user_1",
+          "willingnessToPay": 3500,
+          "availability": "Weekdays"
+        }
+      ],
+      "supporterCountOffset": 22,
+      "bids": [],
+      "activeBidId": null,
+      "inviteFriendsCount": 12
+    },
+    {
+      "id": "prop-6",
+      "title": "Clay Wheel Pottery & Matcha Morning",
+      "description": "A tactile morning ritual under open banyan trees. Learn clay centering and throwing techniques on manual wheels guided by a master ceramist, while sipping premium stone-ground ceremonial Uji matcha whisked hot in-context.",
+      "category": "Food",
+      "creatorId": "user_2",
+      "status": "GATHERING_DEMAND",
+      "targetThreshold": 15,
+      "image": "https://images.unsplash.com/photo-1565192647048-f997ecd87abf?w=800",
+      "playbook": {
+        "concept": "Outdoor clay throwing pottery class paired with hand-whisked matcha.",
+        "key_requirements": [
+          "Shaded outdoor banyan garden or airy greenhouse space.",
+          "Individual throwing pottery wheels for up to 10 guests.",
+          "Ceremonial matcha tea whisking explanation and tastings.",
+          "Includes firing and glazing of 2 custom pieces to keep."
+        ],
+        "vibe": "Tactile, meditative, serene",
+        "target_audience": "Makers, tea ritual enthusiasts, city explorers looking for slowness",
+        "conditions": "Sunday morning (9:00 AM - 12:30 PM), ticket target ₹4,200."
+      },
+      "supporters": [
+        {
+          "userId": "user_2",
+          "willingnessToPay": 4500,
+          "availability": "Weekends"
+        }
+      ],
+      "supporterCountOffset": 8,
+      "bids": [],
+      "activeBidId": null,
+      "inviteFriendsCount": 4
+    },
+    {
+      "id": "prop-7",
+      "title": "Soma Sound Healing & Cold Plunge Ritual",
+      "description": "A sensory recharge ritual set in a private forest clearing on the city outskirts. Experience Tibetan singing bowl frequencies, deep breathing exercises, and a structured wood-fired sauna to ice cold plunge transition, followed by botanical herbal teas.",
       "category": "Outdoors",
+      "creatorId": "user_2",
+      "status": "ACTIVATED",
+      "targetThreshold": 15,
+      "image": "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=800",
+      "playbook": {
+        "concept": "Outdoor sound bath meditation combined with structured ice baths.",
+        "key_requirements": [
+          "Private garden/forest deck with high tree canopy.",
+          "Sound healer playing 7 crystal singing bowls.",
+          "2 steel cold plunge tubs filled with clean ice (3-5°C).",
+          "Woodfired sauna and hot herbal teas post plunge."
+        ],
+        "vibe": "Somatic, meditative, deep-release",
+        "target_audience": "Wellness enthusiasts, breathwork explorers, city builders seeking rest",
+        "conditions": "Saturday morning (7:00 AM - 10:30 AM), price ₹3,500."
+      },
+      "supporters": [
+        {
+          "userId": "user_2",
+          "willingnessToPay": 3500,
+          "availability": "Weekends"
+        },
+        {
+          "userId": "admin",
+          "willingnessToPay": 3500,
+          "availability": "Weekends"
+        }
+      ],
+      "supporterCountOffset": 13,
+      "bids": [
+        {
+          "id": "bid-7-1",
+          "providerName": "The Sanctuary Wellness Centre",
+          "providerLogo": "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=80",
+          "price": 3500,
+          "proposedDate": "Saturday, July 18th, 7:00 AM",
+          "capacity": 15,
+          "terms": "Full backyard garden deck buyout, certified sound bath therapist, two ice tubs with fresh ice loads, sauna access. Bid accepted by founder.",
+          "votes": [
+            "user_2",
+            "admin"
+          ]
+        }
+      ],
+      "activeBidId": "bid-7-1",
+      "inviteFriendsCount": 22
+    },
+    {
+      "id": "prop-8",
+      "title": "Speculative Fiction & Absinthe Salon",
+      "description": "An evening of intellectual curiosity for bibliophiles. We will gather in a dimly lit, velvet-curtained library to discuss three classic speculative fiction short stories regarding artificial minds, accompanied by traditional drip absinthe service and slow-pour cocktails.",
+      "category": "Social",
+      "creatorId": "user_1",
+      "status": "TERMS_OFFERED",
+      "targetThreshold": 20,
+      "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800",
+      "playbook": {
+        "concept": "A library salon discussing speculative fiction with traditional drip absinthe.",
+        "key_requirements": [
+          "Private library room with dark wood, shelves, and soft lighting.",
+          "Curated reading packet shared 7 days in advance.",
+          "Traditional absinthe fountains, sugar spoons, and cold drip water.",
+          "Dim ambient acoustics to keep voice levels conversational."
+        ],
+        "vibe": "Mysterious, literary, focused",
+        "target_audience": "Avid readers, tech philosophy buffs, cocktail traditionalists",
+        "conditions": "Thursday night (8:00 PM - 11:00 PM), price ₹3,000."
+      },
+      "supporters": [
+        {
+          "userId": "user_1",
+          "willingnessToPay": 3000,
+          "availability": "Weekdays"
+        },
+        {
+          "userId": "admin",
+          "willingnessToPay": 3500,
+          "availability": "Weekdays"
+        }
+      ],
+      "supporterCountOffset": 19,
+      "bids": [
+        {
+          "id": "bid-8-1",
+          "providerName": "The Library Bar",
+          "providerLogo": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=80",
+          "price": 3000,
+          "proposedDate": "Thursday, July 23rd, 8:00 PM",
+          "capacity": 25,
+          "terms": "Exclusive lounge corner booking, book exchange shelf access, custom botanical cocktails & grazing platters.",
+          "votes": [
+            "user_1"
+          ]
+        },
+        {
+          "id": "bid-8-2",
+          "providerName": "The Velvet Alcove",
+          "providerLogo": "https://images.unsplash.com/photo-1543007630-9710e4a00a20?w=80",
+          "price": 3800,
+          "proposedDate": "Wednesday, July 22nd, 8:30 PM",
+          "capacity": 20,
+          "terms": "Private salon parlor, bespoke absinthe pairings with 3-course French appetizers. Premium private lounge.",
+          "votes": [
+            "admin"
+          ]
+        }
+      ],
+      "activeBidId": null,
+      "inviteFriendsCount": 18
+    },
+    {
+      "id": "prop-9",
+      "title": "Rooftop Bouldering & Craft Beer Social",
+      "description": "A high-energy evening of social climbing. Conquer a custom-built bouldering wall under the stars guided by professional route-setters, followed by an artisanal woodfired pizza and local microbrew tasting session on the brewery terrace.",
+      "category": "Social",
+      "creatorId": "user_3",
+      "status": "GATHERING_DEMAND",
+      "targetThreshold": 30,
+      "image": "https://images.unsplash.com/photo-1522163182402-834f871fd851?w=800",
+      "playbook": {
+        "concept": "Sunset bouldering wall session followed by microbrew tasting on a brewery terrace.",
+        "key_requirements": [
+          "Safety-vetted indoor/outdoor climbing wall access.",
+          "Private climbing coaches/routesetters for beginners.",
+          "Terrace table booking at adjacent craft brewery.",
+          "Pizza buffet and 3-glass craft beer flight."
+        ],
+        "vibe": "Kinesthetic, energetic, casual",
+        "target_audience": "Social climbers, fitness groups, craft beer hobbyists",
+        "conditions": "Friday evening (5:30 PM - 9:30 PM), ticket target ₹2,800."
+      },
+      "supporters": [
+        {
+          "userId": "user_3",
+          "willingnessToPay": 2800,
+          "availability": "Weekdays"
+        },
+        {
+          "userId": "admin",
+          "willingnessToPay": 3000,
+          "availability": "Weekdays"
+        }
+      ],
+      "supporterCountOffset": 16,
+      "bids": [],
+      "activeBidId": null,
+      "inviteFriendsCount": 14
+    },
+    {
+      "id": "prop-10",
+      "title": "Aromatic Botanical Alchemy Salon",
+      "description": "Learn the art of natural perfumery. Hand-blend your own signature scent using rare botanical extracts, absolutes, and essential oils under the guidance of an expert perfumer, accompanied by organic floral teas and French macarons.",
+      "category": "Performance",
       "creatorId": "admin",
       "status": "GATHERING_DEMAND",
-      "targetThreshold": 25,
-      "image": "https://images.unsplash.com/photo-1532187643603-ba119ca4109e?w=800",
+      "targetThreshold": 12,
+      "image": "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=800",
       "playbook": {
-        "concept": "Overnight astronomy camp and stargazing guided excursion.",
+        "concept": "Hands-on natural perfumery session creating a custom signature fragrance.",
         "key_requirements": [
-          "Dark sky zone site",
-          "telescope guide",
-          "high-quality tents",
-          "bonfire circle"
+          "Bright, airy workspace with individual fragrance formulation kits.",
+          "Expert guidance from a master botanical perfumer.",
+          "Collection of 30+ rare natural extracts, absolutes, and essential oils.",
+          "Premium glass vials and custom labels. Includes hot tea and pastries."
         ],
-        "vibe": "Adventurous, educational, clean air",
-        "target_audience": "Urban experience hunters",
-        "conditions": "Saturday night (clear weather check)."
+        "vibe": "Tactile, refined, aesthetic",
+        "target_audience": "Aroma explorers, design hobbyists, collectors of artisanal crafts",
+        "conditions": "Sunday afternoon (2:00 PM - 5:00 PM), ticket target ₹4,200."
       },
       "supporters": [
         {
           "userId": "admin",
-          "willingnessToPay": 5000,
-          "availability": "Anytime"
+          "willingnessToPay": 4200,
+          "availability": "Weekends"
         }
       ],
-      "supporterCountOffset": 0,
+      "supporterCountOffset": 3,
       "bids": [],
       "activeBidId": null,
-      "inviteFriendsCount": 0
+      "inviteFriendsCount": 5
     }
   ],
   "contributions": [
@@ -341,14 +559,6 @@
       "actionType": "ACTIVATE",
       "description": "Accepted Indiranagar Social's bid and activated the dinner",
       "timestamp": "2026-06-10T11:00:00Z"
-    },
-    {
-      "id": "cnt-1781189150391",
-      "userId": "admin",
-      "proposalId": "prop-1781189150391",
-      "actionType": "CREATE",
-      "description": "Proposed the experience: Wilderness Astronomy Camp",
-      "timestamp": "2026-06-11T14:45:50.391Z"
     }
   ]
 }
