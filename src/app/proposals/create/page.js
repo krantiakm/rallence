@@ -173,8 +173,11 @@ export default function CreateProposal() {
 
         {/* Onboarding Inspiration Suggestions */}
         <div className="inspiration-container">
-          <label style={{ fontSize: '0.85rem', fontWeight: '700', textTransform: 'uppercase', color: 'var(--accent-sage)', letterSpacing: '0.05em' }}>
-            💡 Quick Inspiration templates
+          <label style={{ fontSize: '0.85rem', fontWeight: '700', textTransform: 'uppercase', color: 'var(--accent-sage)', letterSpacing: '0.05em', display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
+            <span className="icon-inline">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41m12.72-12.72l-1.41 1.41M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0z"/></svg>
+            </span>
+            Quick Inspiration templates
           </label>
           <div className="inspiration-gallery">
             {INSPIRATION_TEMPLATES.map((temp, i) => (
@@ -230,8 +233,12 @@ export default function CreateProposal() {
                 className="ai-suggest-btn"
                 onClick={handleAiRefine}
                 disabled={aiRefining}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}
               >
-                {aiRefining ? "Refining..." : "✨ AI Assist Copy"}
+                <span className="icon-inline">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m11.314 11.314l.707-.707M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10z"/></svg>
+                </span>
+                {aiRefining ? "Refining..." : "AI Assist Copy"}
               </button>
             </div>
             <input 
@@ -299,7 +306,12 @@ export default function CreateProposal() {
 
           {/* Event Playbook spec block */}
           <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.25rem', marginTop: '0.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            <h3 style={{ fontSize: '1.15rem', fontFamily: 'var(--font-serif)', color: 'var(--accent-sage)' }}>📐 Structured Event Playbook Blueprint</h3>
+            <h3 style={{ fontSize: '1.15rem', fontFamily: 'var(--font-serif)', color: 'var(--accent-sage)', display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
+              <span className="icon-inline">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20M4 19.5V3.5A2.5 2.5 0 0 1 6.5 1H20v21H6.5a2.5 2.5 0 0 1-2.5-2.5z"/></svg>
+              </span>
+              Structured Event Playbook Blueprint
+            </h3>
             
             <div className="form-group">
               <label>Playbook Concept Summary</label>
@@ -395,8 +407,11 @@ export default function CreateProposal() {
                 </p>
               </div>
 
-              <div style={{ background: 'rgba(255,255,255,0.12)', padding: '0.5rem', borderRadius: '8px', fontSize: '0.65rem' }}>
-                📖 Vibe: {playbookVibe || "Editorial"}
+              <div style={{ background: 'rgba(255,255,255,0.12)', padding: '0.5rem', borderRadius: '8px', fontSize: '0.65rem', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                <span className="icon-inline">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20M4 19.5V3.5A2.5 2.5 0 0 1 6.5 1H20v21H6.5a2.5 2.5 0 0 1-2.5-2.5z"/></svg>
+                </span>
+                Vibe: {playbookVibe || "Editorial"}
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>

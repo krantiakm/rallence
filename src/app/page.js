@@ -289,7 +289,10 @@ export default function Home() {
                       <div className="card-actions-row">
                         {isBackedByMe ? (
                           <button className="btn btn-secondary" style={{ flex: 1, cursor: 'default' }} disabled>
-                            ✓ Rallied
+                            <span className="icon-inline" style={{ marginRight: '0.35rem' }}>
+                              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                            </span>
+                            Rallied
                           </button>
                         ) : isActivated ? (
                           <button 
@@ -297,7 +300,10 @@ export default function Home() {
                             style={{ flex: 1 }}
                             onClick={() => window.location.href = `/proposals/${prop.id}`}
                           >
-                            View Details (Activated)
+                            <span className="icon-inline" style={{ marginRight: '0.35rem' }}>
+                              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            </span>
+                            View Active
                           </button>
                         ) : (
                           <button 
@@ -310,24 +316,33 @@ export default function Home() {
                               setBackingProposalId(prop.id);
                             }}
                           >
+                            <span className="icon-inline" style={{ marginRight: '0.35rem' }}>
+                              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                            </span>
                             Rally Interest
                           </button>
                         )}
 
                         <button 
                           className="btn btn-outline" 
-                          style={{ borderColor: '#fff', color: '#fff', padding: '0.75rem' }}
+                          style={{ borderColor: '#fff', color: '#fff', padding: '0.75rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                           onClick={() => handleShareClick(prop)}
+                          title="Share Campaign"
                         >
-                          🔗 Share
+                          <span className="icon-inline">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+                          </span>
                         </button>
                         
                         <a 
                           href={`/proposals/${prop.id}`} 
                           className="btn" 
-                          style={{ background: 'rgba(255,255,255,0.15)', color: '#fff', padding: '0.75rem' }}
+                          style={{ background: 'rgba(255,255,255,0.15)', color: '#fff', padding: '0.75rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                          title="View Details"
                         >
-                          👁️ Details
+                          <span className="icon-inline">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                          </span>
                         </a>
                       </div>
                     )}

@@ -128,7 +128,12 @@ export default function ProviderRadar() {
       
       {/* Editorial Header */}
       <div>
-        <h1 style={{ fontSize: '2.5rem', fontWeight: '700', marginBottom: '0.5rem' }}>B2B Provider Radar</h1>
+        <h1 style={{ fontSize: '2.5rem', fontWeight: '700', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <span className="icon-inline" style={{ color: 'var(--accent-terracotta)' }}>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 10 10"/><path d="M12 6a6 6 0 0 1 6 6"/><circle cx="12" cy="12" r="1"/></svg>
+          </span>
+          B2B Provider Radar
+        </h1>
         <p style={{ fontSize: '1.05rem', color: 'var(--bg-neutral-muted)' }}>
           Review aggregated city-wide demand signals. Pitch terms directly to execute the exact playbooks proposed.
         </p>
@@ -223,14 +228,17 @@ export default function ProviderRadar() {
 
                 {/* Expanded B2B details & Form */}
                 {isExpanded && (
-                  <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.5rem', marginTop: '0.5rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
+                  <div className="radar-expanded-grid" style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.5rem', marginTop: '0.5rem' }}>
                     
                     {/* Left side: WTP Curve & Playbook */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                       {/* Demand curve bar chart */}
                       <div className="wtp-curve-container">
-                        <h4 style={{ fontSize: '0.95rem', fontWeight: '700', marginBottom: '0.25rem', fontFamily: 'var(--font-serif)' }}>
-                          📈 Price Points Demand Curve (Willingness to Pay spread)
+                        <h4 style={{ fontSize: '0.95rem', fontWeight: '700', marginBottom: '0.25rem', fontFamily: 'var(--font-serif)', display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
+                          <span className="icon-inline" style={{ color: 'var(--accent-sage)' }}>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                          </span>
+                          Price Points Demand Curve (Willingness to Pay spread)
                         </h4>
                         <p style={{ fontSize: '0.75rem', color: 'var(--bg-neutral-muted)', marginBottom: '0.5rem' }}>
                           Ticket sales volumes gathered from backer context profiles:
@@ -251,7 +259,12 @@ export default function ProviderRadar() {
 
                       {/* Event Playbook spec sheet */}
                       <div className="playbook-card">
-                        <h4 className="playbook-header">📖 Proposed Event Playbook spec</h4>
+                        <h4 className="playbook-header" style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                          <span className="icon-inline">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20M4 19.5V3.5A2.5 2.5 0 0 1 6.5 1H20v21H6.5a2.5 2.5 0 0 1-2.5-2.5z"/></svg>
+                          </span>
+                          Proposed Event Playbook spec
+                        </h4>
                         <p style={{ fontSize: '0.8rem', color: 'var(--bg-neutral-muted)', marginBottom: '0.75rem' }}>
                           Your bid is a commitment to execute this exact blueprint proposed by the founder:
                         </p>

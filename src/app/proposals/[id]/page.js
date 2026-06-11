@@ -155,8 +155,11 @@ export default function ProposalDetail() {
       
       {/* Back to feed link */}
       <div>
-        <a href="/" style={{ fontSize: '0.9rem', color: 'var(--accent-terracotta)', fontWeight: '600', display: 'inline-flex', alignItems: 'center', gap: '0.25rem' }}>
-          ← Back to Instagram Feed
+        <a href="/" style={{ fontSize: '0.9rem', color: 'var(--accent-terracotta)', fontWeight: '600', display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
+          <span className="icon-inline">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          </span>
+          Back to Instagram Feed
         </a>
       </div>
 
@@ -186,20 +189,23 @@ export default function ProposalDetail() {
           <button 
             className="btn btn-outline" 
             onClick={() => setShowShareModal(true)}
-            style={{ marginLeft: 'auto' }}
+            style={{ marginLeft: 'auto', display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}
           >
-            🔗 Share Proposal
+            <span className="icon-inline">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+            </span>
+            Share Proposal
           </button>
         </div>
       </div>
 
       {/* Hero Visual */}
-      <div style={{ width: '100%', height: '360px', borderRadius: 'var(--radius-lg)', overflow: 'hidden', border: '1px solid var(--border-color)', position: 'relative' }}>
-        <img src={proposal.image} alt={proposal.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+      <div className="detail-hero-container">
+        <img src={proposal.image} alt={proposal.title} className="detail-hero-image" />
       </div>
 
       {/* Grid: Description & Playbook */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '2.5rem', marginTop: '1rem' }}>
+      <div className="details-layout-grid">
         {/* Left Column: Description & Backing stats */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
           <div>
@@ -246,8 +252,11 @@ export default function ProposalDetail() {
         {/* Right Column: Event Playbook Spec Sheet */}
         <div>
           <div className="playbook-card" style={{ sticky: 'top', background: 'var(--accent-sage-light)' }}>
-            <div className="playbook-header">
-              📖 Event Playbook spec
+            <div className="playbook-header" style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+              <span className="icon-inline">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20M4 19.5V3.5A2.5 2.5 0 0 1 6.5 1H20v21H6.5a2.5 2.5 0 0 1-2.5-2.5z"/></svg>
+              </span>
+              Event Playbook spec
             </div>
             <p style={{ fontSize: '0.85rem', color: 'var(--bg-neutral-muted)', marginBottom: '1rem', fontStyle: 'italic' }}>
               These are the non-negotiable standards defined by the founder. Venues must follow this blueprint:
@@ -458,11 +467,17 @@ export default function ProposalDetail() {
                             marginLeft: 'auto', 
                             padding: '0.4rem 0.85rem', 
                             fontSize: '0.85rem',
-                            background: hasVoted ? 'var(--accent-terracotta-light)' : 'transparent' 
+                            background: hasVoted ? 'var(--accent-terracotta-light)' : 'transparent',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '0.35rem'
                           }}
                           disabled={isActivated}
                         >
-                          👍 Vote Preference ({bid.votes.length})
+                          <span className="icon-inline">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+                          </span>
+                          Vote Preference ({bid.votes.length})
                         </button>
 
                         {/* Accept Offer Action (Available to Creator/Admin) */}
