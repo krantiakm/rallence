@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 
 export async function POST(request, { params }) {
   try {
-    const id = params.id;
+    const { id } = await params;
     const body = await request.json();
     
     if (!body.providerName || !body.price || !body.proposedDate || !body.capacity || !body.terms) {
@@ -19,7 +19,7 @@ export async function POST(request, { params }) {
 
 export async function PATCH(request, { params }) {
   try {
-    const id = params.id;
+    const { id } = await params;
     const body = await request.json();
     const { bidId, userId } = body;
     
@@ -35,7 +35,7 @@ export async function PATCH(request, { params }) {
 }
 export async function PUT(request, { params }) {
   try {
-    const id = params.id;
+    const { id } = await params;
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get('userId') || 'admin';
     const count = parseInt(searchParams.get('count')) || 1;

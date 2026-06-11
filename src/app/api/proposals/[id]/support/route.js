@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 
 export async function POST(request, { params }) {
   try {
-    const id = params.id;
+    const { id } = await params;
     const body = await request.json();
     const { userId, willingnessToPay, availability } = body;
     

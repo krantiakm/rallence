@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 
 export async function GET(request, { params }) {
   try {
-    const id = params.id;
+    const { id } = await params;
     const proposal = dbService.getProposal(id);
     if (!proposal) {
       return NextResponse.json({ success: false, error: "Proposal not found" }, { status: 404 });
@@ -16,7 +16,7 @@ export async function GET(request, { params }) {
 
 export async function PATCH(request, { params }) {
   try {
-    const id = params.id;
+    const { id } = await params;
     const body = await request.json();
     const { bidId, userId } = body;
     

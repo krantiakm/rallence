@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 
 export async function GET(request, { params }) {
   try {
-    const username = params.username;
+    const { username } = await params;
     const profile = dbService.getUserProfile(username);
     if (!profile) {
       return NextResponse.json({ success: false, error: "User profile not found" }, { status: 404 });
