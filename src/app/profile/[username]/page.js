@@ -288,7 +288,11 @@ export default function UserProfile() {
                               {prop.title}
                             </h4>
                             <p style={{ fontSize: '0.75rem', color: 'var(--bg-neutral-muted)', marginTop: '0.25rem', marginBottom: 0 }}>
-                              {backers} Backers · {prop.bids.length} venue bids received
+                              {isActivated ? (
+                                <span>Hosted by <strong>{prop.bids.find(b => b.id === prop.activeBidId)?.providerName || 'Venue Partner'}</strong></span>
+                              ) : (
+                                <span>{backers} Backers · {prop.bids.length} venue bids received</span>
+                              )}
                             </p>
                           </div>
                           <span style={{ fontSize: '0.75rem', color: 'var(--bg-neutral-dark)', fontWeight: '600' }}>

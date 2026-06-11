@@ -57,6 +57,79 @@ const getWtpDescription = (category, value) => {
   return "Luxury Wilderness Dome: Geodesic domes with private decks, specialized astronomer guides, premium stargazing equipment, forest banquet.";
 };
 
+function getActivatedDetails(id) {
+  const details = {
+    'prop-3': {
+      hostName: "Indiranagar Social (Green Room)",
+      location: "No. 46/1, Cobalt Building, Church Street / Indiranagar, Bangalore",
+      aboutHost: "Indiranagar Social is a vibrant collaborative workspace by day and a high-energy dining lounge by night. The Private Green Room has been reserved exclusively for this event, offering soundproof acoustics, premium healthy catering, and private lounge seating.",
+      itinerary: [
+        { time: "07:30 PM", activity: "Guest arrivals, registration, and warm herbal tea reception." },
+        { time: "07:45 PM", activity: "Welcoming remarks & Tech/Longevity founder introductions." },
+        { time: "08:15 PM", activity: "Private chef's 4-course dinner (nutritious vegan & keto selections served)." },
+        { time: "09:15 PM", activity: "Structured discussion regarding AI diagnostics & preventative health models." },
+        { time: "10:30 PM", activity: "Closing remarks, digital resource exchange, and networking." }
+      ],
+      inclusions: [
+        "Private booking of the sound-tuned Green Room",
+        "Curated 4-course healthy/nutrient-dense custom menu",
+        "Dedicated event coordination and concierge service",
+        "Complimentary high-speed Wi-Fi, smart-screen presentation tools, and valet parking"
+      ],
+      guidelines: [
+        "Dress code: Smart casual / tech chic.",
+        "Kindly list dietary restrictions (e.g. keto, vegan, gluten-free) during checkout.",
+        "Arrive by 7:25 PM to maximize networking time before dinner."
+      ],
+      remainingSeats: 4
+    },
+    'prop-7': {
+      hostName: "The Sanctuary Wellness Centre",
+      location: "Forest Canopy Deck, Off Bannerghatta Main Road, Bangalore (near national park)",
+      aboutHost: "The Sanctuary is a premium outdoor wellness space dedicated to somatic healing, mindfulness, and restorative hot-cold therapy. Set inside a lush canopy, it offers a peaceful escape from the city's noise.",
+      itinerary: [
+        { time: "07:00 AM", activity: "Arrival at clearing, warm botanical herbal tea reception." },
+        { time: "07:15 AM", activity: "Soma Sound Bath: 7 crystal singing bowls led by certified therapist." },
+        { time: "08:15 AM", activity: "Structured Woodfired Sauna transition to Ice Cold Plunges (3-5°C)." },
+        { time: "09:15 AM", activity: "Restorative reflection circle, sound integration, and fresh fruit platter." },
+        { time: "10:00 AM", activity: "Wrap-up and departure." }
+      ],
+      inclusions: [
+        "1-hour guided sound healing session by a certified therapist",
+        "Use of premium steel ice plunge tubs (fresh ice load for each session)",
+        "Unlimited woodfired sauna access and warm towels",
+        "Post-plunge herbal teas, organic honey, and organic fruit platter"
+      ],
+      guidelines: [
+        "Bring a swimsuit/change of comfortable clothes and a personal towel.",
+        "Avoid eating a heavy meal within 2 hours of the experience.",
+        "Water, towels, and changing rooms with lockers are provided on-site."
+      ],
+      remainingSeats: 3
+    }
+  };
+  return details[id] || {
+    hostName: "Host Partner",
+    location: "Selected Venue Partner Location",
+    aboutHost: "Vetted hospitality partner selected to execute this premium experience blueprint.",
+    itinerary: [
+      { time: "Start Time", activity: "Welcoming reception and introductions" },
+      { time: "Main Session", activity: "Execution of the experience core blueprint" },
+      { time: "Closing Time", activity: "Wrap-up and networking" }
+    ],
+    inclusions: [
+      "Vetted materials and expert instruction",
+      "Food/beverages as defined in the playbook",
+      "Private venue spaces and service"
+    ],
+    guidelines: [
+      "Arrive 10 minutes before the start time.",
+      "Inform the host of any special requirements."
+    ],
+    remainingSeats: 5
+  };
+}
+
 export default function ProposalDetail() {
   const params = useParams();
   const id = params.id;
@@ -228,6 +301,8 @@ export default function ProposalDetail() {
   const percentage = Math.min(Math.round((supportedCount / proposal.targetThreshold) * 100), 100);
   const isBackedByMe = proposal.supporters.some(s => s.userId === 'admin');
   const isActivated = proposal.status === 'ACTIVATED';
+  const actDetails = isActivated ? getActivatedDetails(proposal.id) : null;
+  const activeBid = proposal.bids.find(b => b.id === proposal.activeBidId);
 
   // Availability preference stats
   const availabilities = proposal.supporters.map(s => s.availability);
@@ -303,38 +378,122 @@ export default function ProposalDetail() {
             </p>
           </div>
 
-          {/* Demand metrics */}
-          <div style={{ background: 'var(--bg-paper)', border: '1px solid var(--border-color)', padding: '1.5rem', borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-organic)' }}>
-            <h3 style={{ fontSize: '1.25rem', marginBottom: '1rem', fontFamily: 'var(--font-serif)' }}>Demand Insights</h3>
-            
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', marginBottom: '0.35rem', fontWeight: '500' }}>
-                  <span>Rally Target</span>
-                  <span>{supportedCount} / {proposal.targetThreshold} Backers ({percentage}%)</span>
+          {/* Demand metrics or Activated Host Spotlight */}
+          {!isActivated ? (
+            <div style={{ background: 'var(--bg-paper)', border: '1px solid var(--border-color)', padding: '1.5rem', borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-organic)' }}>
+              <h3 style={{ fontSize: '1.25rem', marginBottom: '1rem', fontFamily: 'var(--font-serif)' }}>Demand Insights</h3>
+              
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', marginBottom: '0.35rem', fontWeight: '500' }}>
+                    <span>Rally Target</span>
+                    <span>{supportedCount} / {proposal.targetThreshold} Backers ({percentage}%)</span>
+                  </div>
+                  <div className="progress-bar-container">
+                    <div 
+                      className={`progress-bar-fill ${isActivated ? 'activated' : ''}`} 
+                      style={{ width: `${percentage}%` }}
+                    />
+                  </div>
                 </div>
-                <div className="progress-bar-container">
-                  <div 
-                    className={`progress-bar-fill ${isActivated ? 'activated' : ''}`} 
-                    style={{ width: `${percentage}%` }}
-                  />
-                </div>
-              </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginTop: '0.5rem', borderTop: '1px solid var(--border-color)', paddingTop: '1rem' }}>
-                <div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--bg-neutral-muted)' }}>PCP Availability</div>
-                  <div style={{ fontSize: '1.25rem', fontWeight: '700', color: 'var(--accent-sage)' }}>{weekendPercentage}% Weekends</div>
-                </div>
-                <div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--bg-neutral-muted)' }}>Average Budget</div>
-                  <div style={{ fontSize: '1.25rem', fontWeight: '700', color: 'var(--accent-terracotta)' }}>
-                    ₹{(proposal.supporters.reduce((sum, s) => sum + s.willingnessToPay, 0) / (proposal.supporters.length || 1)).toLocaleString()}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginTop: '0.5rem', borderTop: '1px solid var(--border-color)', paddingTop: '1rem' }}>
+                  <div>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--bg-neutral-muted)' }}>PCP Availability</div>
+                    <div style={{ fontSize: '1.25rem', fontWeight: '700', color: 'var(--accent-sage)' }}>{weekendPercentage}% Weekends</div>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--bg-neutral-muted)' }}>Average Budget</div>
+                    <div style={{ fontSize: '1.25rem', fontWeight: '700', color: 'var(--accent-terracotta)' }}>
+                      ₹{(proposal.supporters.reduce((sum, s) => sum + s.willingnessToPay, 0) / (proposal.supporters.length || 1)).toLocaleString()}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
+              {/* Deployed Host Header and Info */}
+              <div style={{ background: '#FFFDF9', border: '1px solid var(--accent-sage)', padding: '1.75rem', borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-organic)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
+                  <img 
+                    src={activeBid?.providerLogo || 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=80'} 
+                    alt="Host" 
+                    style={{ width: '56px', height: '56px', borderRadius: '8px', objectFit: 'cover', border: '1px solid #E5E0D8' }}
+                  />
+                  <div>
+                    <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--accent-terracotta)', fontWeight: '700' }}>Host Partner Spotlight</span>
+                    <h3 style={{ fontSize: '1.4rem', fontFamily: 'var(--font-serif)', margin: 0, color: 'var(--bg-neutral-dark)' }}>{actDetails.hostName}</h3>
+                  </div>
+                </div>
+                
+                <p style={{ fontSize: '0.95rem', lineHeight: '1.6', color: 'var(--bg-neutral-muted)', margin: '0 0 1.25rem 0' }}>
+                  {actDetails.aboutHost}
+                </p>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', borderTop: '1px solid var(--border-color)', paddingTop: '1rem', marginBottom: '1rem' }}>
+                  <div>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--bg-neutral-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', display: 'block', marginBottom: '0.15rem' }}>📅 Confirmed Date</span>
+                    <span style={{ fontSize: '0.95rem', fontWeight: '700', color: 'var(--bg-neutral-dark)' }}>{activeBid?.proposedDate || 'Saturday Evening'}</span>
+                  </div>
+                  <div>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--bg-neutral-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', display: 'block', marginBottom: '0.15rem' }}>🎟️ Availability</span>
+                    <span style={{ fontSize: '0.95rem', fontWeight: '700', color: 'var(--accent-sage-hover)' }}>{actDetails.remainingSeats} Seats Left / {activeBid?.capacity || '20'} Total</span>
+                  </div>
+                </div>
+                
+                <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1rem' }}>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--bg-neutral-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', display: 'block', marginBottom: '0.15rem' }}>📍 Venue Location</span>
+                  <span style={{ fontSize: '0.9rem', color: 'var(--bg-neutral-dark)', fontWeight: '500' }}>{actDetails.location}</span>
+                </div>
+              </div>
+
+              {/* Itinerary Timeline */}
+              <div style={{ background: 'var(--bg-paper)', border: '1px solid var(--border-color)', padding: '1.5rem', borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-organic)' }}>
+                <h3 style={{ fontSize: '1.25rem', marginBottom: '1.25rem', fontFamily: 'var(--font-serif)', color: 'var(--bg-neutral-dark)' }}>
+                  📖 Curated Event Itinerary
+                </h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', position: 'relative' }}>
+                  {actDetails.itinerary.map((item, idx) => (
+                    <div key={idx} style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start', position: 'relative' }}>
+                      {/* Timeline dot/line */}
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%' }}>
+                        <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--accent-terracotta)', marginTop: '0.35rem' }} />
+                        {idx < actDetails.itinerary.length - 1 && (
+                          <div style={{ width: '1px', flexGrow: 1, minHeight: '20px', background: 'var(--border-color)', margin: '0.25rem 0' }} />
+                        )}
+                      </div>
+                      <div style={{ fontSize: '0.9rem' }}>
+                        <span style={{ fontWeight: '700', color: 'var(--accent-terracotta)', marginRight: '0.5rem' }}>{item.time}</span>
+                        <span style={{ color: 'var(--bg-neutral-dark)' }}>{item.activity}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Inclusions & Preparation side-by-side */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1.5rem' }}>
+                <div style={{ background: 'var(--bg-paper)', border: '1px solid var(--border-color)', padding: '1.5rem', borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-organic)' }}>
+                  <h4 style={{ fontSize: '1.1rem', marginBottom: '0.75rem', fontFamily: 'var(--font-serif)', color: 'var(--accent-sage-hover)' }}>✨ Experience Inclusions</h4>
+                  <ul style={{ paddingLeft: '1.2rem', margin: 0, fontSize: '0.85rem', color: 'var(--bg-neutral-dark)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                    {actDetails.inclusions.map((inc, i) => (
+                      <li key={i} style={{ lineHeight: '1.4' }}>{inc}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div style={{ background: 'var(--bg-paper)', border: '1px solid var(--border-color)', padding: '1.5rem', borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-organic)' }}>
+                  <h4 style={{ fontSize: '1.1rem', marginBottom: '0.75rem', fontFamily: 'var(--font-serif)', color: 'var(--accent-terracotta)' }}>💡 Guest Preparation Guidelines</h4>
+                  <ul style={{ paddingLeft: '1.2rem', margin: 0, fontSize: '0.85rem', color: 'var(--bg-neutral-muted)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                    {actDetails.guidelines.map((guide, i) => (
+                      <li key={i} style={{ lineHeight: '1.4' }}>{guide}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Right Column: Event Playbook Spec Sheet */}

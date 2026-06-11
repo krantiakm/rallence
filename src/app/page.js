@@ -246,6 +246,24 @@ export default function Home() {
 
                     {/* Proposal Texts */}
                     <div>
+                      {isActivated && (
+                        <div className="partner-host-pill" style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '0.35rem',
+                          background: 'rgba(110, 138, 117, 0.15)',
+                          border: '1px solid rgba(110, 138, 117, 0.35)',
+                          borderRadius: '20px',
+                          padding: '0.2rem 0.6rem',
+                          fontSize: '0.75rem',
+                          color: '#A1C0AA',
+                          marginBottom: '0.5rem',
+                          fontWeight: '600'
+                        }}>
+                          <span style={{ display: 'inline-block', width: '6px', height: '6px', backgroundColor: '#8FBC8F', borderRadius: '50%' }}></span>
+                          Host: {prop.bids.find(b => b.id === prop.activeBidId)?.providerName || 'Selected Venue Partner'}
+                        </div>
+                      )}
                       <h2 className="card-title">{prop.title}</h2>
                       <p className="card-description" style={{ marginTop: '0.5rem' }}>
                         {prop.description}
