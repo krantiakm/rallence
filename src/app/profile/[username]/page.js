@@ -184,7 +184,7 @@ export default function UserProfile() {
             </div>
             <div className="scout-stat-card">
               <div className="val">{proposals.length}</div>
-              <div className="label">Ventures Founded</div>
+              <div className="label">Proposals Founded</div>
             </div>
             <div className="scout-stat-card">
               <div className="val">{profile.contributions.filter(c => c.actionType === 'RALLY').length + 5}</div>
