@@ -238,14 +238,45 @@ button, input, textarea, select {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: var(--bg-cream);
+  background: radial-gradient(circle at 50% 50%, #FAF7F0 0%, #EFEADF 100%);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   z-index: 9999;
   padding: 2rem;
+  overflow: hidden;
   transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ambient-blur {
+  position: absolute;
+  width: 450px;
+  height: 450px;
+  border-radius: 50%;
+  filter: blur(110px);
+  opacity: 0.16;
+  z-index: 1;
+  pointer-events: none;
+  animation: floatAmbient 16s infinite alternate ease-in-out;
+}
+
+.ambient-blur.terracotta {
+  background: var(--accent-terracotta);
+  top: -10%;
+  left: -10%;
+}
+
+.ambient-blur.sage {
+  background: var(--accent-sage);
+  bottom: -10%;
+  right: -10%;
+  animation-delay: -8s;
+}
+
+@keyframes floatAmbient {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(40px, -40px) scale(1.15); }
 }
 
 .onboarding-overlay.dismissed {
@@ -255,34 +286,67 @@ button, input, textarea, select {
 }
 
 .onboarding-card {
-  max-width: 600px;
+  max-width: 580px;
   text-align: center;
-  background: var(--bg-paper);
-  padding: 3.5rem 2.5rem;
+  background: rgba(253, 252, 247, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 3.5rem 2.75rem;
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-organic);
-  border: 1px solid var(--border-color);
+  box-shadow: 0 24px 50px rgba(28, 25, 23, 0.08);
+  border: 1px solid rgba(229, 224, 216, 0.6);
+  z-index: 2;
+  position: relative;
 }
 
 .onboarding-title {
-  font-size: 3.5rem;
+  font-size: 3.8rem;
   font-weight: 700;
-  color: var(--accent-terracotta);
-  margin-bottom: 1rem;
-  letter-spacing: -0.03em;
+  font-family: var(--font-serif);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.04em;
+  background: linear-gradient(135deg, var(--accent-terracotta) 20%, #D15A36 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .onboarding-tagline {
-  font-size: 1.1rem;
-  color: var(--accent-sage);
-  font-weight: 600;
-  margin-bottom: 2rem;
-  letter-spacing: 0.1em;
+  font-size: 0.95rem;
+  color: var(--accent-sage-hover);
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
+.onboarding-teasers {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 2.25rem;
+  flex-wrap: wrap;
+}
+
+.teaser-pill {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent-sage-hover);
+  background: rgba(110, 138, 117, 0.08);
+  border: 1px solid rgba(110, 138, 117, 0.15);
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.02em;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.teaser-pill:hover {
+  transform: translateY(-2px);
+  background: rgba(110, 138, 117, 0.12);
+}
+
 .onboarding-desc {
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   line-height: 1.7;
   color: var(--bg-neutral-muted);
   margin-bottom: 2.5rem;
@@ -291,6 +355,15 @@ button, input, textarea, select {
 .onboarding-desc em {
   font-family: var(--font-serif);
   color: var(--bg-neutral-dark);
+}
+
+.onboarding-btn {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.onboarding-btn:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 15px rgba(212, 91, 52, 0.25);
 }
 
 /* Instagram-style Vertical Snapping Feed */

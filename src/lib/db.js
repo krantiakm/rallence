@@ -247,7 +247,7 @@ const SEED_PROPOSALS = [
     creatorId: 'user_2',
     status: 'GATHERING_DEMAND',
     targetThreshold: 15,
-    image: 'https://images.unsplash.com/photo-1565192647048-f997ecd87abf?w=800',
+    image: 'https://images.unsplash.com/photo-1576016770956-debb63d90029?w=800',
     playbook: {
       concept: "Outdoor clay throwing pottery class paired with hand-whisked matcha.",
       key_requirements: [
@@ -484,16 +484,25 @@ function initDB() {
   }
 }
 
+let memoryDB = null;
+
 // Read database
 function readDB() {
   initDB();
+  if (memoryDB) return memoryDB;
   const raw = fs.readFileSync(DB_PATH, 'utf8');
-  return JSON.parse(raw);
+  memoryDB = JSON.parse(raw);
+  return memoryDB;
 }
 
 // Write database
 function writeDB(data) {
-  fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2), 'utf8');
+  memoryDB = data;
+  try {
+    fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2), 'utf8');
+  } catch (err) {
+    console.warn("Database write failed (likely read-only on Vercel). Using in-memory state:", err.message);
+  }
 }
 
 // Exported Service Methods (REST Ready)
@@ -526,14 +535,20 @@ export const dbService = {
         score += 2; // slight bump for own proposals
       }
 
-      return { ...prop, pcpScore: score };
+      const myBooking = prop.bookings?.find(b => b.userId === userId) || null;
+      return { ...prop, pcpScore: score, myBooking };
     }).sort((a, b) => b.pcpScore - a.pcpScore);
   },
 
   // Get specific proposal
-  getProposal(id) {
+  getProposal(id, userId = 'admin') {
     const db = readDB();
-    return db.proposals.find(p => p.id === id) || null;
+    const prop = db.proposals.find(p => p.id === id) || null;
+    if (prop) {
+      const myBooking = prop.bookings?.find(b => b.userId === userId) || null;
+      return { ...prop, myBooking };
+    }
+    return null;
   },
 
   // Support/rally for a proposal

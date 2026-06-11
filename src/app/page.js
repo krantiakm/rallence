@@ -166,19 +166,31 @@ export default function Home() {
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
       {/* Onboarding Overlay */}
       {showOnboarding && (
-        <div className={`onboarding-overlay`}>
+        <div className="onboarding-overlay">
+          <div className="ambient-blur terracotta" />
+          <div className="ambient-blur sage" />
+          
           <div className="onboarding-card">
             <h1 className="onboarding-title">Rallence</h1>
             <p className="onboarding-tagline">What should happen next in your city?</p>
+            
+            <div className="onboarding-teasers">
+              <span className="teaser-pill">🍣 Chef's Omakase</span>
+              <span className="teaser-pill">🍷 Sunset Rooftop Jazz</span>
+              <span className="teaser-pill">🌌 Wilderness Telescope Camp</span>
+              <span className="teaser-pill">🏺 Banyan Tree Pottery</span>
+            </div>
+
             <p className="onboarding-desc">
               Rallence is where the city's most unique, unmissable experiences begin. 
               <br /><br />
               We bring people together to <em>rally</em> around ideas they wish existed, creating a <em>resonance</em> that top chefs, artists, and venues can't ignore. Support a concept, specify your budget, and help bring it to life.
             </p>
+            
             <button 
-              className="btn btn-primary" 
+              className="btn btn-primary onboarding-btn" 
               onClick={() => setShowOnboarding(false)}
-              style={{ padding: '0.85rem 2.25rem', fontSize: '1.05rem', letterSpacing: '0.01em' }}
+              style={{ padding: '0.95rem 2.5rem', fontSize: '1.1rem', letterSpacing: '0.02em', border: 'none', position: 'relative', overflow: 'hidden' }}
             >
               Explore Proposals
             </button>
@@ -540,22 +552,41 @@ export default function Home() {
                     ) : (
                       <div className="card-actions-row">
                         {isActivated ? (
-                          <button 
-                            className="btn btn-primary" 
-                            style={{ flex: 1, background: 'var(--accent-terracotta)', borderColor: 'var(--accent-terracotta)' }}
-                            onClick={() => {
-                              setBookingSeats(1);
-                              setBookingNotes("");
-                              setBookingStep(1);
-                              setBookingResult(null);
-                              setBookingActiveProposalId(prop.id);
-                            }}
-                          >
-                            <span className="icon-inline" style={{ marginRight: '0.35rem' }}>
-                              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                            </span>
-                            Book Tickets
-                          </button>
+                          prop.myBooking ? (
+                            <button 
+                              className="btn btn-secondary" 
+                              style={{ flex: 1, background: 'var(--accent-sage)', borderColor: 'var(--accent-sage)', color: '#fff' }}
+                              onClick={() => {
+                                setBookingSeats(prop.myBooking.seatsCount);
+                                setBookingNotes(prop.myBooking.notes);
+                                setBookingStep(3);
+                                setBookingResult({ booking: prop.myBooking, proposal: prop });
+                                setBookingActiveProposalId(prop.id);
+                              }}
+                            >
+                              <span className="icon-inline" style={{ marginRight: '0.35rem' }}>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                              </span>
+                              Booked ({prop.myBooking.seatsCount} Seat{prop.myBooking.seatsCount > 1 ? 's' : ''})
+                            </button>
+                          ) : (
+                            <button 
+                              className="btn btn-primary" 
+                              style={{ flex: 1, background: 'var(--accent-terracotta)', borderColor: 'var(--accent-terracotta)' }}
+                              onClick={() => {
+                                setBookingSeats(1);
+                                setBookingNotes("");
+                                setBookingStep(1);
+                                setBookingResult(null);
+                                setBookingActiveProposalId(prop.id);
+                              }}
+                            >
+                              <span className="icon-inline" style={{ marginRight: '0.35rem' }}>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                              </span>
+                              Book Tickets
+                            </button>
+                          )
                         ) : isBackedByMe ? (
                           <button className="btn btn-secondary" style={{ flex: 1, cursor: 'default' }} disabled>
                             <span className="icon-inline" style={{ marginRight: '0.35rem' }}>

@@ -384,27 +384,50 @@ export default function ProposalDetail() {
         {isActivated ? (
           <div>
             {!showBookingForm ? (
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem', textAlign: 'center' }}>
-                <div style={{ fontSize: '2.5rem', color: 'var(--accent-terracotta)', marginBottom: '0.25rem' }}>🎫</div>
-                <h3 style={{ fontSize: '1.6rem', fontFamily: 'var(--font-serif)' }}>Experience Activated!</h3>
-                <p style={{ fontSize: '0.95rem', color: 'var(--bg-neutral-muted)', maxWidth: '550px' }}>
-                  This experience has been activated at <strong>{proposal.bids.find(b => b.id === proposal.activeBidId)?.providerName || 'the host venue'}</strong>. 
-                  Confirmed for <strong>{proposal.bids.find(b => b.id === proposal.activeBidId)?.proposedDate || 'the proposed date'}</strong> at <strong>₹{proposal.bids.find(b => b.id === proposal.activeBidId)?.price?.toLocaleString() || '3,500'}</strong> per seat.
-                </p>
-                <button 
-                  className="btn btn-primary" 
-                  onClick={() => {
-                    setBookingSeats(1);
-                    setBookingNotes("");
-                    setBookingStep(1);
-                    setBookingResult(null);
-                    setShowBookingForm(true);
-                  }}
-                  style={{ padding: '0.85rem 3rem', fontSize: '1.1rem', marginTop: '0.5rem', background: 'var(--accent-terracotta)', borderColor: 'var(--accent-terracotta)' }}
-                >
-                  Book Tickets
-                </button>
-              </div>
+              proposal.myBooking ? (
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem', textAlign: 'center' }}>
+                  <div style={{ fontSize: '2.5rem', color: 'var(--accent-sage)', marginBottom: '0.25rem' }}>✓</div>
+                  <h3 style={{ fontSize: '1.6rem', fontFamily: 'var(--font-serif)' }}>You're Booked!</h3>
+                  <p style={{ fontSize: '0.95rem', color: 'var(--bg-neutral-muted)', maxWidth: '550px' }}>
+                    You have successfully booked <strong>{proposal.myBooking.seatsCount} seat(s)</strong> for this experience at <strong>{proposal.myBooking.providerName}</strong>.
+                  </p>
+                  <button 
+                    className="btn btn-secondary" 
+                    onClick={() => {
+                      setBookingSeats(proposal.myBooking.seatsCount);
+                      setBookingNotes(proposal.myBooking.notes);
+                      setBookingStep(3);
+                      setBookingResult({ booking: proposal.myBooking, proposal: proposal });
+                      setShowBookingForm(true);
+                    }}
+                    style={{ padding: '0.85rem 2.5rem', fontSize: '1rem', marginTop: '0.5rem', background: 'var(--accent-sage)', borderColor: 'var(--accent-sage)', color: '#fff' }}
+                  >
+                    View Ticket Pass
+                  </button>
+                </div>
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem', textAlign: 'center' }}>
+                  <div style={{ fontSize: '2.5rem', color: 'var(--accent-terracotta)', marginBottom: '0.25rem' }}>🎫</div>
+                  <h3 style={{ fontSize: '1.6rem', fontFamily: 'var(--font-serif)' }}>Experience Activated!</h3>
+                  <p style={{ fontSize: '0.95rem', color: 'var(--bg-neutral-muted)', maxWidth: '550px' }}>
+                    This experience has been activated at <strong>{proposal.bids.find(b => b.id === proposal.activeBidId)?.providerName || 'the host venue'}</strong>. 
+                    Confirmed for <strong>{proposal.bids.find(b => b.id === proposal.activeBidId)?.proposedDate || 'the proposed date'}</strong> at <strong>₹{proposal.bids.find(b => b.id === proposal.activeBidId)?.price?.toLocaleString() || '3,500'}</strong> per seat.
+                  </p>
+                  <button 
+                    className="btn btn-primary" 
+                    onClick={() => {
+                      setBookingSeats(1);
+                      setBookingNotes("");
+                      setBookingStep(1);
+                      setBookingResult(null);
+                      setShowBookingForm(true);
+                    }}
+                    style={{ padding: '0.85rem 3rem', fontSize: '1.1rem', marginTop: '0.5rem', background: 'var(--accent-terracotta)', borderColor: 'var(--accent-terracotta)' }}
+                  >
+                    Book Tickets
+                  </button>
+                </div>
+              )
             ) : (
               <div className="backing-panel" style={{ maxWidth: '500px', margin: '0 auto', border: 'none', boxShadow: 'none' }}>
                 {bookingStep === 1 && (
