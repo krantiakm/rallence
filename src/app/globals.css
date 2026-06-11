@@ -631,12 +631,17 @@ button, input, textarea, select {
   display: flex;
   flex-direction: column;
   gap: 1.75rem;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .inspiration-container {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  width: 100%;
+  max-width: 100%;
 }
 
 .inspiration-gallery {
@@ -644,6 +649,8 @@ button, input, textarea, select {
   gap: 1rem;
   overflow-x: auto;
   padding-bottom: 0.5rem;
+  width: 100%;
+  max-width: 100%;
 }
 
 .inspiration-item {
@@ -692,6 +699,8 @@ button, input, textarea, select {
   outline: none;
   font-size: 0.95rem;
   transition: var(--transition-fast);
+  width: 100%;
+  max-width: 100%;
 }
 
 .form-input:focus {
