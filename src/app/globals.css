@@ -970,6 +970,208 @@ button, input, textarea, select {
   color: var(--bg-neutral-dark);
 }
 
+/* Provider Bids Cards on Detail Page */
+.provider-bid-card {
+  background: var(--bg-paper);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-organic);
+  position: relative;
+  transition: var(--transition-smooth);
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+}
+
+.provider-bid-card:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-1px);
+}
+
+.provider-bid-card.accepted {
+  border: 2px solid var(--accent-sage);
+  background: linear-gradient(180deg, var(--bg-paper) 0%, rgba(110, 138, 117, 0.02) 100%);
+}
+
+.provider-bid-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.selected-badge {
+  position: absolute;
+  top: -12px;
+  right: 1.5rem;
+  background: var(--accent-sage) !important;
+  color: #fff !important;
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  padding: 4px 10px !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 10px rgba(110, 138, 117, 0.2);
+  z-index: 5;
+}
+
+.provider-logo-img {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid var(--border-color);
+  background: var(--bg-cream);
+  flex-shrink: 0;
+}
+
+.provider-logo-fallback {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  background: var(--accent-sage-light);
+  color: var(--accent-sage);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.provider-logo-fallback svg {
+  width: 24px;
+  height: 24px;
+}
+
+.bid-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.bid-provider-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.bid-provider-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--bg-neutral-dark);
+  margin: 0;
+}
+
+.bid-provider-meta {
+  font-size: 0.8rem;
+  color: var(--bg-neutral-muted);
+  margin-top: 0.2rem;
+  margin-bottom: 0;
+}
+
+.bid-price-badge {
+  text-align: right;
+  flex-shrink: 0;
+  background: var(--bg-cream);
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+}
+
+.bid-price-value {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--accent-terracotta);
+  line-height: 1;
+}
+
+.bid-price-label {
+  font-size: 0.75rem;
+  color: var(--bg-neutral-muted);
+  margin-top: 0.1rem;
+}
+
+.bid-terms {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--bg-neutral-dark);
+  margin: 0;
+}
+
+.bid-footer-row {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.75rem;
+  border-top: 1px solid var(--border-color);
+  padding-top: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+@media (max-width: 600px) {
+  .provider-bid-card {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 1.25rem;
+    gap: 1rem;
+  }
+  
+  .provider-logo-img, .provider-logo-fallback {
+    width: 44px;
+    height: 44px;
+  }
+
+  .bid-header-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .bid-price-badge {
+    text-align: left;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.25rem;
+    padding: 0.35rem 0.6rem;
+    align-self: flex-start;
+  }
+
+  .bid-price-value {
+    font-size: 1.2rem;
+  }
+
+  .bid-price-label {
+    margin-top: 0;
+  }
+
+  .bid-footer-row {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0.5rem !important;
+    width: 100% !important;
+    justify-content: stretch !important;
+  }
+
+  .bid-footer-row button {
+    width: 100% !important;
+    justify-content: center !important;
+    font-size: 0.8rem !important;
+    padding: 0.5rem 0.5rem !important;
+    white-space: nowrap;
+  }
+
+  .selected-badge {
+    position: relative !important;
+    top: 0 !important;
+    right: 0 !important;
+    display: inline-flex !important;
+    align-self: flex-start;
+    margin-bottom: 0.25rem !important;
+  }
+}
+
 /* Share Sheets */
 .modal-overlay {
   position: fixed;

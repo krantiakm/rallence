@@ -3,6 +3,29 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 
+function ProviderLogo({ src, alt }) {
+  const [error, setError] = useState(!src);
+
+  if (error) {
+    return (
+      <div className="provider-logo-fallback">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M3 9h18M9 21V9M12 2v7M12 18v3M15 21V9M2 9V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v4M22 9v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9Z"/>
+        </svg>
+      </div>
+    );
+  }
+
+  return (
+    <img 
+      src={src} 
+      alt={alt} 
+      className="provider-logo-img" 
+      onError={() => setError(true)} 
+    />
+  );
+}
+
 export default function ProposalDetail() {
   const params = useParams();
   const id = params.id;
@@ -159,7 +182,7 @@ export default function ProposalDetail() {
           <span className="icon-inline">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
           </span>
-          Back to Instagram Feed
+          ← Explore Experiences
         </a>
       </div>
 
@@ -424,73 +447,63 @@ export default function ProposalDetail() {
               return (
                 <div 
                   key={bid.id} 
-                  style={{ 
-                    background: 'var(--bg-paper)', 
-                    border: isAccepted ? '2px solid var(--accent-sage)' : '1px solid var(--border-color)', 
-                    borderRadius: 'var(--radius-md)', 
-                    padding: '1.5rem',
-                    boxShadow: 'var(--shadow-organic)',
-                    position: 'relative'
-                  }}
+                  className={`provider-bid-card ${isAccepted ? 'accepted' : ''}`}
                 >
                   {isAccepted && (
-                    <span style={{ position: 'absolute', top: '-12px', right: '1.5rem', background: 'var(--accent-sage)', color: '#fff', fontSize: '0.75rem', fontWeight: '700', padding: '4px 10px', borderRadius: '12px' }}>
+                    <span className="badge badge-founder selected-badge">
                       SELECTED & ACTIVATED
                     </span>
                   )}
                   
-                  <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
-                    <img src={bid.providerLogo} alt={bid.providerName} style={{ width: '48px', height: '48px', borderRadius: '8px', objectFit: 'cover' }} />
-                    <div style={{ flex: 1 }}>
-                      <h3 style={{ fontSize: '1.2rem', fontWeight: '700' }}>{bid.providerName}</h3>
-                      <p style={{ fontSize: '0.8rem', color: 'var(--bg-neutral-muted)', marginTop: '0.15rem' }}>
-                        Proposed Date: <strong>{bid.proposedDate}</strong> · Capacity: <strong>{bid.capacity} seats</strong>
-                      </p>
-                      
-                      <p style={{ fontSize: '0.9rem', lineHeight: '1.5', margin: '0.75rem 0', color: 'var(--bg-neutral-muted)' }}>
-                        {bid.terms}
-                      </p>
-
-                      <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', marginTop: '1rem', borderTop: '1px solid var(--border-color)', paddingTop: '1rem' }}>
-                        <div>
-                          <span style={{ fontSize: '1.4rem', fontWeight: '700', color: 'var(--accent-terracotta)' }}>
-                            ₹{bid.price.toLocaleString()}
-                          </span>
-                          <span style={{ fontSize: '0.8rem', color: 'var(--bg-neutral-muted)' }}> / head</span>
-                        </div>
-
-                        {/* Backer Votes */}
-                        <button 
-                          className="btn btn-outline"
-                          onClick={() => handleVoteBid(bid.id)}
-                          style={{ 
-                            marginLeft: 'auto', 
-                            padding: '0.4rem 0.85rem', 
-                            fontSize: '0.85rem',
-                            background: hasVoted ? 'var(--accent-terracotta-light)' : 'transparent',
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: '0.35rem'
-                          }}
-                          disabled={isActivated}
-                        >
-                          <span className="icon-inline">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
-                          </span>
-                          Vote Preference ({bid.votes.length})
-                        </button>
-
-                        {/* Accept Offer Action (Available to Creator/Admin) */}
-                        {!isActivated && (proposal.creatorId === 'admin' || 'admin' === 'admin') && (
-                          <button 
-                            className="btn btn-primary"
-                            onClick={() => handleAcceptBid(bid.id)}
-                            style={{ padding: '0.4rem 1rem', fontSize: '0.85rem' }}
-                          >
-                            Accept & Activate
-                          </button>
-                        )}
+                  <ProviderLogo src={bid.providerLogo} alt={bid.providerName} />
+                  
+                  <div className="provider-bid-content">
+                    <div className="bid-header-row">
+                      <div className="bid-provider-info">
+                        <h3 className="bid-provider-name">{bid.providerName}</h3>
+                        <p className="bid-provider-meta">
+                          Proposed Date: <strong>{bid.proposedDate}</strong> · Capacity: <strong>{bid.capacity} seats</strong>
+                        </p>
                       </div>
+                      <div className="bid-price-badge">
+                        <span className="bid-price-value">₹{bid.price.toLocaleString()}</span>
+                        <span className="bid-price-label"> / head</span>
+                      </div>
+                    </div>
+                    
+                    <p className="bid-terms">
+                      {bid.terms}
+                    </p>
+                    
+                    <div className="bid-footer-row">
+                      {/* Backer Votes */}
+                      <button 
+                        className="btn btn-outline"
+                        onClick={() => handleVoteBid(bid.id)}
+                        style={{ 
+                          background: hasVoted ? 'var(--accent-terracotta-light)' : 'transparent',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '0.35rem'
+                        }}
+                        disabled={isActivated}
+                      >
+                        <span className="icon-inline">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+                        </span>
+                        Vote Preference ({bid.votes.length})
+                      </button>
+
+                      {/* Accept Offer Action (Available to Creator/Admin) */}
+                      {!isActivated && (proposal.creatorId === 'admin' || 'admin' === 'admin') && (
+                        <button 
+                          className="btn btn-primary"
+                          onClick={() => handleAcceptBid(bid.id)}
+                          style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}
+                        >
+                          Accept & Activate
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>
