@@ -153,11 +153,11 @@ export default function UserProfile() {
   }
 
   return (
-    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '2.5rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
+    <div className="scout-space-container">
       
       {/* Scout Identity Header */}
-      <div style={{ display: 'flex', gap: '2rem', alignItems: 'center', background: 'var(--bg-paper)', borderRadius: 'var(--radius-lg)', padding: '2.5rem', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-organic)', flexWrap: 'wrap' }}>
-        <div style={{ position: 'relative' }}>
+      <div className="scout-header-card">
+        <div style={{ position: 'relative', flexShrink: 0 }}>
           <img 
             src={profile.avatar} 
             alt={profile.name} 
@@ -166,14 +166,14 @@ export default function UserProfile() {
           <span style={{ position: 'absolute', bottom: '0', right: '0', background: 'var(--accent-sage)', width: '16px', height: '16px', borderRadius: '50%', border: '2px solid var(--bg-paper)' }} title="Scout Active" />
         </div>
         
-        <div style={{ flex: 1, minWidth: '250px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
-            <h1 style={{ fontSize: '2.25rem', fontWeight: '700', fontFamily: 'var(--font-serif)', color: 'var(--bg-neutral-dark)', margin: 0 }}>
+        <div className="scout-meta-block">
+          <div className="scout-title-row">
+            <h1 className="scout-name">
               {profile.name}
             </h1>
             <span className="badge badge-scout">{profile.badge}</span>
           </div>
-          <p style={{ fontSize: '0.9rem', color: 'var(--bg-neutral-muted)', marginTop: '0.5rem', marginBottom: 0 }}>
+          <p className="scout-username-text">
             Scout Username: <strong>@{profile.username}</strong> · Chapter location: <strong>Bangalore Chapter</strong>
           </p>
           
@@ -193,11 +193,11 @@ export default function UserProfile() {
           </div>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', alignSelf: 'stretch', justifyContent: 'center' }}>
+        <div className="scout-action-block">
           <button 
             className="btn btn-primary" 
             onClick={() => setShowShareModal(true)}
-            style={{ padding: '0.65rem 1.5rem', fontSize: '0.85rem', whiteSpace: 'nowrap' }}
+            style={{ padding: '0.65rem 1.5rem', fontSize: '0.85rem', whiteSpace: 'nowrap', width: '100%' }}
           >
             Share Scout Portfolio
           </button>

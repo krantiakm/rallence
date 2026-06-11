@@ -50,7 +50,7 @@ export default function RootLayout({ children }) {
             background: 'var(--bg-cream)',
             zIndex: 10
           }}>
-            Rallence · Build: v1.0.6
+            Rallence · Build: v1.0.7
           </footer>
         </div>
       </body>
