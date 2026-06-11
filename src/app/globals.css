@@ -1033,3 +1033,143 @@ button, input, textarea, select {
   font-weight: 600;
   font-size: 1rem;
 }
+
+/* New compact profile nav layout styles */
+.nav-profile-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid var(--accent-terracotta);
+  border-radius: 20px;
+  background: transparent;
+  color: var(--accent-terracotta);
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: var(--transition-fast);
+}
+
+.nav-profile-btn:hover {
+  background: var(--accent-terracotta-light);
+}
+
+.nav-avatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.nav-points {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Global Mobile Responsive Design overrides */
+@media (max-width: 600px) {
+  .navbar {
+    padding: 0.85rem 1rem !important;
+  }
+  
+  .logo {
+    font-size: 1.35rem !important;
+  }
+  
+  .logo span {
+    font-size: 0.65rem !important;
+    padding: 1px 4px !important;
+  }
+  
+  .nav-links {
+    gap: 0.75rem !important;
+  }
+  
+  .nav-link {
+    font-size: 0.85rem !important;
+  }
+
+  .nav-profile-btn {
+    padding: 0.25rem 0.5rem !important;
+  }
+
+  .nav-points {
+    display: none !important; /* Hide points text to fit neatly on mobile */
+  }
+
+  /* Snapping feed mobile height fix (dvh accounts for mobile browser UI) */
+  .instagram-feed-container {
+    height: calc(100dvh - 60px) !important;
+  }
+
+  /* Card responsive scales */
+  .card-title {
+    font-size: 1.85rem !important;
+  }
+
+  .card-description {
+    font-size: 0.9rem !important;
+    line-height: 1.4 !important;
+  }
+
+  .onboarding-title {
+    font-size: 2.5rem !important;
+  }
+
+  .onboarding-card {
+    padding: 2.5rem 1.5rem !important;
+  }
+
+  .onboarding-desc {
+    font-size: 1rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  .creator-layout {
+    grid-template-columns: 1fr !important;
+    padding: 1rem !important;
+    gap: 1.5rem !important;
+  }
+
+  .studio-panel {
+    padding: 1.25rem !important;
+  }
+
+  .radar-layout {
+    padding: 1rem !important;
+    gap: 1.5rem !important;
+  }
+
+  .radar-stat-card {
+    padding: 1rem !important;
+  }
+
+  .radar-stat-card .value {
+    font-size: 1.5rem !important;
+  }
+
+  .radar-proposal-row {
+    padding: 1rem !important;
+    gap: 1rem !important;
+  }
+
+  .wtp-curve-container {
+    padding: 1rem !important;
+  }
+
+  .wtp-bars {
+    gap: 0.75rem !important;
+  }
+
+  .wtp-bar-fill {
+    border-radius: 2px 2px 0 0 !important;
+  }
+
+  .backing-panel {
+    padding: 1rem !important;
+    gap: 0.75rem !important;
+  }
+
+  .backing-step-title {
+    font-size: 1.05rem !important;
+  }
+}

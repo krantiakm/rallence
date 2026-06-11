@@ -19,22 +19,20 @@ export default function RootLayout({ children }) {
           <header className="navbar">
             <a href="/" className="logo">
               Rallence
-              <span>Bangalore</span>
+              <span>BLR</span>
             </a>
             
             <nav className="nav-links">
               <a href="/" className="nav-link">Feed</a>
               <a href="/proposals/create" className="nav-link">Propose</a>
-              <a href="/radar" className="nav-link">Provider Radar</a>
-              <a href="/profile/admin" className="btn btn-outline" style={{ padding: '0.45rem 1rem', fontSize: '0.85rem' }}>
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <img 
-                    src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=50" 
-                    alt="Kranti" 
-                    style={{ width: '22px', height: '22px', borderRadius: '50%', objectFit: 'cover' }}
-                  />
-                  <span>Kranti (320 pts)</span>
-                </span>
+              <a href="/radar" className="nav-link">Radar</a>
+              <a href="/profile/admin" className="nav-profile-btn" title="Kranti's Profile">
+                <img 
+                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=50" 
+                  alt="Kranti" 
+                  className="nav-avatar"
+                />
+                <span className="nav-points">320p</span>
               </a>
             </nav>
           </header>

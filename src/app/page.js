@@ -109,20 +109,18 @@ export default function Home() {
         <div className={`onboarding-overlay`}>
           <div className="onboarding-card">
             <h1 className="onboarding-title">Rallence</h1>
-            <p className="onboarding-tagline">Rally & Resonance</p>
+            <p className="onboarding-tagline">What should happen next in your city?</p>
             <p className="onboarding-desc">
-              A city-level demand formation platform for experiences that don't exist yet. 
+              Rallence is where the city's most unique, unmissable experiences begin. 
               <br /><br />
-              Rallence starts <em>before</em> supply is created. Discover ideas, 
-              <strong> Rally</strong> together with your context, and see local venues 
-              and chefs respond with terms to bring it to life.
+              We bring people together to <em>rally</em> around ideas they wish existed, creating a <em>resonance</em> that top chefs, artists, and venues can't ignore. Support a concept, specify your budget, and help bring it to life.
             </p>
             <button 
               className="btn btn-primary" 
               onClick={() => setShowOnboarding(false)}
-              style={{ padding: '1rem 2.5rem', fontSize: '1.1rem' }}
+              style={{ padding: '0.85rem 2.25rem', fontSize: '1.05rem', letterSpacing: '0.01em' }}
             >
-              Start Rallying
+              Explore Proposals
             </button>
           </div>
         </div>
