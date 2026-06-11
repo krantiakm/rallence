@@ -377,7 +377,7 @@ export default function CreateProposal() {
           </label>
           
           {/* Simulated Mobile Frame containing feed card */}
-          <div style={{ border: '8px solid var(--bg-neutral-dark)', borderRadius: '24px', overflow: 'hidden', width: '320px', height: '520px', background: '#000', margin: '0 auto', position: 'relative', boxShadow: 'var(--shadow-hover)' }}>
+          <div className="mobile-frame">
             <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
               <img src={image} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.8 }} />
               <div className="card-gradient-overlay" />
