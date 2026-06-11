@@ -1632,3 +1632,223 @@ button, input, textarea, select {
   box-shadow: var(--shadow-hover);
   transition: var(--transition-smooth);
 }
+
+/* Scout Resonance Space styles */
+.scout-space-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 2.5rem;
+  margin-top: 1rem;
+}
+
+@media (max-width: 900px) {
+  .scout-space-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+}
+
+/* Scout stats row */
+.scout-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.scout-stat-card {
+  background: var(--bg-cream);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+  text-align: center;
+}
+
+.scout-stat-card .val {
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--accent-terracotta);
+}
+
+.scout-stat-card .label {
+  font-size: 0.75rem;
+  color: var(--bg-neutral-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.25rem;
+}
+
+/* PCP Curation Tuning Board */
+.tuner-board {
+  background: var(--bg-paper);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-organic);
+}
+
+.tuner-header {
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tuner-sync-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--accent-sage);
+  background: var(--accent-sage-light);
+  padding: 4px 10px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.tuner-control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.tuner-control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tuner-control-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--bg-neutral-dark);
+}
+
+.tuner-control-label span.value {
+  color: var(--accent-terracotta);
+  font-family: var(--font-serif);
+  font-weight: 700;
+}
+
+/* Custom premium range slider */
+.tuner-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--border-color);
+  outline: none;
+  transition: background 0.3s;
+}
+
+.tuner-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent-terracotta);
+  cursor: pointer;
+  border: 2px solid var(--bg-paper);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: transform 0.1s;
+}
+
+.tuner-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  background: var(--accent-terracotta-hover);
+}
+
+.tuner-slider.slider-sage::-webkit-slider-thumb {
+  background: var(--accent-sage);
+}
+
+.tuner-slider.slider-sage::-webkit-slider-thumb:hover {
+  background: var(--accent-sage-hover);
+}
+
+/* Creator Toolkit Suggestions */
+.toolkit-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+@media (max-width: 600px) {
+  .toolkit-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+.toolkit-card {
+  background: var(--bg-paper);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-organic);
+  transition: var(--transition-smooth);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+.toolkit-card:hover {
+  border-color: var(--accent-terracotta);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.toolkit-card.active-campaign-card {
+  border-left: 3px solid var(--accent-terracotta);
+}
+
+.toolkit-card.active-campaign-card.activated-campaign {
+  border-left-color: var(--accent-sage);
+}
+
+/* Story share simulation sheet */
+.story-share-preview {
+  width: 260px;
+  height: 460px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #FBF9F6 0%, #F1ECE0 100%);
+  border: 4px solid var(--bg-neutral-dark);
+  box-shadow: var(--shadow-hover);
+  margin: 1.5rem auto;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+.story-share-preview::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: linear-gradient(180deg, rgba(199, 93, 62, 0.08) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+.logbook-points {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  color: var(--accent-terracotta);
+  font-size: 0.85rem;
+  margin-left: auto;
+}

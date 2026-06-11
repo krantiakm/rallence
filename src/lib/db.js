@@ -564,6 +564,21 @@ export const dbService = {
     };
   },
 
+  // Update a user's Personal Context Protocol Curation Profile
+  updateUserPCPProfile(username, pcpProfile) {
+    const db = readDB();
+    const user = db.users[username];
+    if (!user) return null;
+
+    user.pcpProfile = {
+      ...user.pcpProfile,
+      ...pcpProfile
+    };
+
+    writeDB(db);
+    return user;
+  },
+
   // Reset database to seeds (for convenience)
   resetDB() {
     const data = {

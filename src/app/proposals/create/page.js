@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 const INSPIRATION_TEMPLATES = [
@@ -56,6 +56,20 @@ const INSPIRATION_TEMPLATES = [
 
 export default function CreateProposal() {
   const router = useRouter();
+
+  // Read template search parameter on client-side mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const templateParam = params.get('template');
+      if (templateParam) {
+        const idx = parseInt(templateParam);
+        if (idx >= 0 && idx < INSPIRATION_TEMPLATES.length) {
+          handleApplyTemplate(INSPIRATION_TEMPLATES[idx]);
+        }
+      }
+    }
+  }, []);
   
   // Form States
   const [title, setTitle] = useState('');
