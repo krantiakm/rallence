@@ -736,6 +736,68 @@ button, input, textarea, select {
   box-shadow: var(--shadow-organic);
 }
 
+/* Creator page responsive helper classes */
+.studio-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.form-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.playbook-blueprint-header {
+  font-size: 1.15rem;
+  font-family: var(--font-serif);
+  color: var(--accent-sage);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.identity-role {
+  font-size: 0.75rem;
+  color: var(--bg-neutral-muted);
+}
+
+/* Detail page responsive helper classes */
+.proposal-detail-title {
+  font-size: 2.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.creator-info-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1.5rem;
+}
+
+.backing-box {
+  background: var(--bg-paper);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  margin-top: 1rem;
+  text-align: center;
+  box-shadow: var(--shadow-organic);
+}
+
 /* B2B Provider Radar Dashboard */
 .radar-layout {
   padding: 2.5rem;
@@ -1167,17 +1229,72 @@ button, input, textarea, select {
   .live-card-preview {
     position: relative !important;
     top: 0 !important;
-    padding: 0.75rem !important;
+    padding: 0.5rem !important;
   }
 
   .mobile-frame {
-    width: 280px !important;
-    height: 450px !important;
+    width: 100% !important;
+    max-width: 270px !important;
+    border-width: 4px !important;
+    border-radius: 16px !important;
+    aspect-ratio: 270 / 440 !important;
+    height: auto !important;
   }
 
   .studio-panel {
     padding: 1.25rem !important;
     order: 1 !important;
+  }
+
+  .studio-title {
+    font-size: 1.5rem !important;
+  }
+
+  .form-grid-2 {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+
+  .form-group label {
+    font-size: 0.8rem !important;
+  }
+
+  .form-input {
+    padding: 0.65rem 0.85rem !important;
+    font-size: 0.9rem !important;
+  }
+
+  .playbook-blueprint-header {
+    font-size: 1rem !important;
+  }
+
+  .identity-panel {
+    padding: 0.75rem !important;
+    gap: 0.5rem !important;
+  }
+
+  .identity-role {
+    font-size: 0.65rem !important;
+  }
+
+  .proposal-detail-title {
+    font-size: 1.65rem !important;
+  }
+
+  .creator-info-row {
+    flex-wrap: wrap !important;
+    gap: 0.75rem !important;
+    padding-bottom: 1rem !important;
+  }
+
+  .creator-info-row .btn-outline {
+    margin-left: 0 !important;
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  .backing-box {
+    padding: 1.25rem !important;
   }
 
   .radar-layout {
@@ -1234,6 +1351,25 @@ button, input, textarea, select {
   }
 }
 
+@media (max-width: 380px) {
+  .navbar {
+    padding: 0.75rem 0.5rem !important;
+  }
+  .logo {
+    font-size: 1.15rem !important;
+    gap: 0.25rem !important;
+  }
+  .logo span {
+    display: none !important; /* Hide BLR badge on very small screens to fit links */
+  }
+  .nav-links {
+    gap: 0.5rem !important;
+  }
+  .nav-link {
+    font-size: 0.75rem !important;
+  }
+}
+
 /* Layout classes for Proposals & Radar details */
 .details-layout-grid {
   display: grid;
@@ -1275,8 +1411,10 @@ button, input, textarea, select {
   border: 8px solid var(--bg-neutral-dark);
   border-radius: 24px;
   overflow: hidden;
-  width: 320px;
-  height: 520px;
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  aspect-ratio: 320 / 520;
   background: #000;
   margin: 0 auto;
   position: relative;

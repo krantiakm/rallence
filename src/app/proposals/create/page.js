@@ -165,7 +165,7 @@ export default function CreateProposal() {
       {/* Left: Input Form Panel */}
       <div className="studio-panel">
         <div>
-          <h1 style={{ fontSize: '2rem', fontWeight: '700', marginBottom: '0.25rem' }}>Create Proposal Studio</h1>
+          <h1 className="studio-title">Create Proposal Studio</h1>
           <p style={{ fontSize: '0.9rem', color: 'var(--bg-neutral-muted)' }}>
             Design a premium offline experience. Gather local backing demand, then venues will bid to host it.
           </p>
@@ -195,7 +195,7 @@ export default function CreateProposal() {
         </div>
 
         {/* Proposer identity */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '1rem', background: 'var(--bg-cream)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
+        <div className="identity-panel" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '1rem', background: 'var(--bg-cream)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
           <img 
             src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=50" 
             alt="Kranti" 
@@ -226,7 +226,7 @@ export default function CreateProposal() {
           </div>
 
           <div className="form-group">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className="form-label-row">
               <label>Experience Title</label>
               <button 
                 type="button" 
@@ -264,7 +264,7 @@ export default function CreateProposal() {
             />
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+          <div className="form-grid-2">
             <div className="form-group">
               <label>Est. Cost per Head (WTP)</label>
               <input 
@@ -306,7 +306,7 @@ export default function CreateProposal() {
 
           {/* Event Playbook spec block */}
           <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.25rem', marginTop: '0.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            <h3 style={{ fontSize: '1.15rem', fontFamily: 'var(--font-serif)', color: 'var(--accent-sage)', display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
+            <h3 className="playbook-blueprint-header">
               <span className="icon-inline">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20M4 19.5V3.5A2.5 2.5 0 0 1 6.5 1H20v21H6.5a2.5 2.5 0 0 1-2.5-2.5z"/></svg>
               </span>

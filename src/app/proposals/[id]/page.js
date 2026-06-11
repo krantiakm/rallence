@@ -171,10 +171,10 @@ export default function ProposalDetail() {
             {proposal.status.replace('_', ' ')}
           </span>
         </div>
-        <h1 style={{ fontSize: '2.75rem', fontWeight: '700', lineHeight: '1.2' }}>{proposal.title}</h1>
+        <h1 className="proposal-detail-title">{proposal.title}</h1>
         
         {/* Creator Info */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginTop: '0.5rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '1.5rem' }}>
+        <div className="creator-info-row">
           <img 
             src={proposal.creatorId === 'admin' ? 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150' : 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150'} 
             alt="Creator" 
@@ -293,7 +293,7 @@ export default function ProposalDetail() {
 
       {/* Rally backing component */}
       {!isActivated && (
-        <div style={{ background: 'var(--bg-paper)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-lg)', padding: '2rem', marginTop: '1rem', textAlign: 'center', boxShadow: 'var(--shadow-organic)' }}>
+        <div className="backing-box">
           {isBackedByMe ? (
             <div>
               <div style={{ fontSize: '2.5rem', color: 'var(--accent-sage)', marginBottom: '0.5rem' }}>✓</div>
